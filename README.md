@@ -6,8 +6,9 @@ notes; sort by expiration so nothing goes to waste; keep a grocery list; and get
 random "what could I cook?" suggestions from what you already own.
 
 - **Author:** Jiachen Zhao
-- **Class link:** https://johnguerra.co/classes/webDevelopment_fall_2025/ <!-- replace with your section's link -->
-- **Live demo:** https://pantrypal.example.com <!-- replace after deployment -->
+- **Class link:** https://johnguerra.co/classes/webDevelopment_online_summer_2026/
+- **Live demo:** https://web-project3-s5w7.onrender.com/
+- **design document and mockup:** https://docs.google.com/document/d/14iKH0xFDyhCws_omgvVKZsafctT_EoysBNPQyxWJU1M/edit?usp=sharing 
 
 ## Project Objective
 
@@ -18,7 +19,7 @@ own pantry items.
 
 ## Screenshot
 
-![PantryPal screenshot](./screenshot.png)
+![PantryPal screenshot](./screenshot.PNG)
 
 <!-- Take a screenshot of the running app and save it as screenshot.png in the project root -->
 
