@@ -1,0 +1,10 @@
+/* Grocery list — component-specific styles. */
+.grocery-page .list-group-item:hover {
+  background: #f6f8f5;
+}
+
+/* Purchased items are struck through and dimmed. */
+.grocery-purchased {
+  text-decoration: line-through;
+  color: #6c757d;
+}

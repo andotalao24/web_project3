@@ -1,0 +1,8 @@
+/* Suggestions page — component-specific styles. */
+.suggestions-page .card {
+  border-left: 4px solid #2f7d34;
+}
+
+.suggestion-message {
+  font-size: 1.05rem;
+}

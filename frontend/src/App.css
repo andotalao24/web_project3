@@ -1,0 +1,13 @@
+/* App shell — component-specific styles. */
+.app-main {
+  max-width: 720px;
+}
+
+.app-nav .navbar-brand {
+  font-weight: 700;
+}
+
+.app-footer {
+  border-top: 1px solid #e2e8e2;
+  font-size: 0.85rem;
+}

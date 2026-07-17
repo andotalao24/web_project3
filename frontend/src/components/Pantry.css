@@ -1,0 +1,14 @@
+/* Pantry page — component-specific styles. */
+.pantry-page .list-group-item {
+  border-left: 3px solid transparent;
+}
+
+.pantry-page .list-group-item:hover {
+  border-left-color: #0a6510;
+}
+
+/* Highlight items that expire within a few days. */
+.pantry-soon {
+  color: #ed9d94;
+  font-weight: 600;
+}

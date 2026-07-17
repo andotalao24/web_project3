@@ -1,0 +1,149 @@
+/* Login screen — component-specific styles. */
+
+/* Full-screen animated gradient backdrop. */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1e5a29, #2f7d34, #67a86b, #2f7d34);
+  background-size: 300% 300%;
+  animation: login-gradient 14s ease infinite;
+}
+
+@keyframes login-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Floating food icons drifting up the screen. */
+.login-floaters {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.floater {
+  position: absolute;
+  bottom: -3rem;
+  font-size: 2rem;
+  opacity: 0.35;
+  animation: float-up 12s linear infinite;
+}
+
+@keyframes float-up {
+  from {
+    transform: translateY(0) rotate(0deg);
+  }
+  to {
+    transform: translateY(-110vh) rotate(360deg);
+  }
+}
+
+/* Spread the icons out and stagger their timing. */
+.floater-0 {
+  left: 8%;
+  animation-delay: 0s;
+}
+.floater-1 {
+  left: 20%;
+  animation-delay: 3s;
+  font-size: 1.5rem;
+}
+.floater-2 {
+  left: 32%;
+  animation-delay: 7s;
+}
+.floater-3 {
+  left: 45%;
+  animation-delay: 1.5s;
+  font-size: 2.5rem;
+}
+.floater-4 {
+  left: 58%;
+  animation-delay: 5s;
+}
+.floater-5 {
+  left: 70%;
+  animation-delay: 9s;
+  font-size: 1.6rem;
+}
+.floater-6 {
+  left: 82%;
+  animation-delay: 2.5s;
+}
+.floater-7 {
+  left: 92%;
+  animation-delay: 6.5s;
+  font-size: 2.4rem;
+}
+
+/* The card: frosted glass, gentle entrance. */
+.login-card {
+  width: 100%;
+  max-width: 360px;
+  border: none;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  animation: card-in 0.5s ease-out;
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Bouncing can logo. */
+.login-logo {
+  font-size: 3rem;
+  text-align: center;
+  animation: logo-bob 2.5s ease-in-out infinite;
+}
+
+@keyframes logo-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.login-title {
+  color: #1e5a29;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.login-tagline {
+  margin-top: 0.25rem;
+}
+
+/* Respect users who prefer less motion. */
+@media (prefers-reduced-motion: reduce) {
+  .login-page,
+  .floater,
+  .login-card,
+  .login-logo {
+    animation: none;
+  }
+}
