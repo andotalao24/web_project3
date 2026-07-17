@@ -1,5 +1,8 @@
 import 'dotenv/config';
 
+import path from 'node:path';
+import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import express from 'express';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
@@ -16,6 +19,7 @@ import groceryRoutes from './routes/grocery.js';
 import suggestionRoutes from './routes/suggestions.js';
 
 const PORT = process.env.PORT || 5000;
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Tell passport how to check a login: look up the user, then compare passwords.
 passport.use(
@@ -65,6 +69,9 @@ async function main() {
   const app = express();
   app.use(express.json());
 
+  // Behind Render's proxy, trust it so secure cookies work.
+  app.set('trust proxy', 1);
+
   // Sessions stored in Mongo so logins survive server restarts.
   app.use(
     session({
@@ -85,6 +92,16 @@ async function main() {
   app.use('/api/pantry', isAuthenticated, pantryRoutes);
   app.use('/api/grocery', isAuthenticated, groceryRoutes);
   app.use('/api/suggestions', isAuthenticated, suggestionRoutes);
+
+  // In production, serve the built React app from the same server.
+  const frontendDist = path.join(__dirname, '../frontend/dist');
+  if (fs.existsSync(frontendDist)) {
+    app.use(express.static(frontendDist));
+    // Any non-API route falls back to the React app (single-page app).
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(frontendDist, 'index.html'));
+    });
+  }
 
   // Central error handler.
   // eslint-disable-next-line no-unused-vars
