@@ -19,7 +19,7 @@ own pantry items.
 
 ## Screenshot
 
-![PantryPal screenshot](./screenshot.png)
+![PantryPal screenshot](./screenshot.PNG)
 
 <!-- Take a screenshot of the running app and save it as screenshot.png in the project root -->
 
