@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api } from '../api';
+import GroceryItem from './GroceryItem';
 import './Grocery.css';
 
 const CATEGORIES = ['Produce', 'Dairy', 'Meat', 'Grains', 'Snacks', 'Other'];
@@ -79,50 +80,12 @@ function Grocery() {
 
       <ul className="list-group">
         {items.map((item) => (
-          <li
+          <GroceryItem
             key={item._id}
-            className="list-group-item d-flex align-items-center gap-2 flex-wrap"
-          >
-            <input
-              className="form-check-input mt-0"
-              type="checkbox"
-              checked={item.purchased}
-              onChange={(e) => update(item, { purchased: e.target.checked })}
-            />
-            <span
-              className={
-                item.purchased ? 'fw-semibold grocery-purchased' : 'fw-semibold'
-              }
-            >
-              {item.name}
-            </span>
-            <span className="badge text-bg-success">{item.category}</span>
-            <span className="ms-auto btn-group btn-group-sm">
-              <button
-                className="btn btn-outline-secondary"
-                onClick={() =>
-                  update(item, { quantity: Math.max(1, item.quantity - 1) })
-                }
-              >
-                −
-              </button>
-              <span className="btn btn-outline-secondary disabled">
-                {item.quantity}
-              </span>
-              <button
-                className="btn btn-outline-secondary"
-                onClick={() => update(item, { quantity: item.quantity + 1 })}
-              >
-                +
-              </button>
-            </span>
-            <button
-              className="btn btn-sm btn-outline-danger"
-              onClick={() => remove(item._id)}
-            >
-              Remove
-            </button>
-          </li>
+            item={item}
+            onUpdate={(changes) => update(item, changes)}
+            onDelete={() => remove(item._id)}
+          />
         ))}
       </ul>
     </section>

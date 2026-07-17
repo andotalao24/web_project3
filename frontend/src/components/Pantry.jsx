@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api } from '../api';
+import PantryItem from './PantryItem';
 import './Pantry.css';
 
 const CATEGORIES = ['Produce', 'Dairy', 'Meat', 'Grains', 'Snacks', 'Other'];
@@ -11,12 +12,6 @@ const EMPTY = {
   expirationDate: '',
   notes: '',
 };
-
-// Days until expiration (used to flag items expiring soon).
-function daysLeft(date) {
-  if (!date) return null;
-  return Math.ceil((new Date(date) - new Date()) / (1000 * 60 * 60 * 24));
-}
 
 // Pantry page: add, list (sorted by expiration), edit and delete items.
 function Pantry() {
@@ -148,38 +143,14 @@ function Pantry() {
       {error && <p className="text-danger">{error}</p>}
 
       <ul className="list-group">
-        {items.map((item) => {
-          const d = daysLeft(item.expirationDate);
-          return (
-            <li
-              key={item._id}
-              className="list-group-item d-flex align-items-center gap-2 flex-wrap"
-            >
-              <span className="fw-semibold">{item.name}</span>
-              <span className="badge text-bg-success">{item.category}</span>
-              <span className={d !== null && d <= 3 ? 'pantry-soon' : ''}>
-                {item.expirationDate
-                  ? new Date(item.expirationDate).toLocaleDateString()
-                  : 'No date'}
-              </span>
-              <span className="ms-auto text-muted small">
-                Qty: {item.quantity}
-              </span>
-              <button
-                className="btn btn-sm btn-outline-secondary"
-                onClick={() => edit(item)}
-              >
-                Edit
-              </button>
-              <button
-                className="btn btn-sm btn-outline-danger"
-                onClick={() => remove(item._id)}
-              >
-                Delete
-              </button>
-            </li>
-          );
-        })}
+        {items.map((item) => (
+          <PantryItem
+            key={item._id}
+            item={item}
+            onEdit={() => edit(item)}
+            onDelete={() => remove(item._id)}
+          />
+        ))}
       </ul>
     </section>
   );

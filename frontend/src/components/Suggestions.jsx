@@ -38,7 +38,7 @@ function Suggestions() {
 
       <div className="d-flex flex-wrap gap-2 mb-3">
         <button className="btn btn-success" onClick={surprise}>
-           Surprise me
+          Surprise me
         </button>
         <select
           className="form-select w-auto"
