@@ -1,4 +1,5 @@
 // One shared MongoDB connection for the whole app (native driver).
+// ADD MORE COMMENTS for each function
 import { MongoClient } from 'mongodb';
 
 const uri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017';
