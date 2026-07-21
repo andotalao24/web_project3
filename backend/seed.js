@@ -1,5 +1,6 @@
 // Fills the database with 1000+ synthetic records plus a demo user.
 // Run with: npm run seed
+// ADD MORE COMMENTS for each function
 import 'dotenv/config';
 
 import bcrypt from 'bcryptjs';
