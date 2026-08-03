@@ -1,8 +1,48 @@
 /* Suggestions page — component-specific styles. */
-.suggestions-page .card {
-  border-left: 4px solid #2f7d34;
+
+/* The result is the payoff of this page, so it gets the visual weight. */
+.suggestion-result {
+  border: 1px solid var(--pp-line);
+  border-radius: var(--pp-radius);
+  background: var(--pp-surface);
+  padding: var(--pp-space-5);
 }
 
 .suggestion-message {
-  font-size: 1.05rem;
+  font-family: var(--pp-font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--pp-green-700);
+  margin: 0 0 var(--pp-space-4);
+  line-height: 1.35;
+}
+
+/* Each ingredient as a chip — scannable at a glance. */
+.suggestion-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pp-space-2);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.suggestion-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--pp-space-2);
+  background: var(--pp-green-100);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  font-weight: 600;
+  color: var(--pp-ink);
+}
+
+.suggestion-chip-cat {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pp-green-700);
+  opacity: 0.75;
 }

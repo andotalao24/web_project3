@@ -44,12 +44,13 @@ function Grocery() {
 
   return (
     <section className="grocery-page">
-      <h2 className="h4">Grocery List</h2>
-      <p className="text-muted small">
-        Add what to buy, tick items off, then remove them.
+      <h2 className="pp-page-title">Grocery List</h2>
+      <p className="pp-page-intro">
+        What you still need to buy. Tick items off as you shop, then clear them
+        once they are home.
       </p>
 
-      <form className="row g-2 mb-3" onSubmit={add}>
+      <form className="pp-panel row g-2" onSubmit={add}>
         <div className="col">
           <input
             className="form-control"
@@ -78,16 +79,22 @@ function Grocery() {
 
       {error && <p className="text-danger">{error}</p>}
 
-      <ul className="list-group">
-        {items.map((item) => (
-          <GroceryItem
-            key={item._id}
-            item={item}
-            onUpdate={(changes) => update(item, changes)}
-            onDelete={() => remove(item._id)}
-          />
-        ))}
-      </ul>
+      {items.length === 0 ? (
+        <p className="pp-empty">
+          Your list is empty. Add something you need to buy above.
+        </p>
+      ) : (
+        <ul className="list-group">
+          {items.map((item) => (
+            <GroceryItem
+              key={item._id}
+              item={item}
+              onUpdate={(changes) => update(item, changes)}
+              onDelete={() => remove(item._id)}
+            />
+          ))}
+        </ul>
+      )}
     </section>
   );
 }

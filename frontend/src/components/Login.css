@@ -6,10 +6,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: var(--pp-space-4);
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #1e5a29, #2f7d34, #67a86b, #2f7d34);
+  background: linear-gradient(
+    135deg,
+    var(--pp-green-900),
+    var(--pp-green-700),
+    var(--pp-green-600),
+    var(--pp-green-700)
+  );
   background-size: 300% 300%;
   animation: login-gradient 14s ease infinite;
 }
@@ -94,7 +100,7 @@
   max-width: 360px;
   border: none;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(6px);
   animation: card-in 0.5s ease-out;
 }
@@ -127,15 +133,19 @@
   }
 }
 
+/* The wordmark: largest, first, in the display face. */
 .login-title {
-  color: #1e5a29;
+  font-family: var(--pp-font-display);
+  font-size: 2rem;
+  color: var(--pp-green-700);
   font-weight: 700;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.02em;
   margin: 0;
 }
 
 .login-tagline {
-  margin-top: 0.25rem;
+  margin-top: var(--pp-space-1);
+  color: var(--pp-muted);
 }
 
 /* Respect users who prefer less motion. */

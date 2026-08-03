@@ -31,12 +31,13 @@ function Suggestions() {
 
   return (
     <section className="suggestions-page">
-      <h2 className="h4">Suggestions</h2>
-      <p className="text-muted small">
-        Not sure what to cook? Shuffle what you already have — no recipe API.
+      <h2 className="pp-page-title">What Should I Cook?</h2>
+      <p className="pp-page-intro">
+        Too tired to decide? PantryPal shuffles what you already own into a
+        combination — no recipe service, just your own shelves.
       </p>
 
-      <div className="d-flex flex-wrap gap-2 mb-3">
+      <div className="pp-panel d-flex flex-wrap gap-2 align-items-center">
         <button className="btn btn-success" onClick={surprise}>
           Surprise me
         </button>
@@ -49,7 +50,7 @@ function Suggestions() {
             <option key={c}>{c}</option>
           ))}
         </select>
-        <button className="btn btn-outline-success" onClick={fromCategory}>
+        <button className="btn btn-outline-secondary" onClick={fromCategory}>
           Suggest from category
         </button>
       </div>
@@ -57,16 +58,13 @@ function Suggestions() {
       {error && <p className="text-danger">{error}</p>}
 
       {result && (
-        <div className="card p-3">
-          <p className="suggestion-message fw-semibold">{result.message}</p>
-          <ul className="list-group list-group-flush">
+        <div className="suggestion-result">
+          <p className="suggestion-message">{result.message}</p>
+          <ul className="suggestion-chips">
             {result.combination.map((item) => (
-              <li
-                key={item._id}
-                className="list-group-item d-flex align-items-center gap-2"
-              >
-                <span className="fw-semibold">{item.name}</span>
-                <span className="badge text-bg-success">{item.category}</span>
+              <li key={item._id} className="suggestion-chip">
+                {item.name}
+                <span className="suggestion-chip-cat">{item.category}</span>
               </li>
             ))}
           </ul>

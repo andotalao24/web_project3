@@ -1,10 +1,28 @@
 /* Grocery list — component-specific styles. */
-.grocery-page .list-group-item:hover {
-  background: #f6f8f5;
+
+.grocery-page .list-group-item {
+  transition: background 0.15s ease;
 }
 
-/* Purchased items are struck through and dimmed. */
+.grocery-page .list-group-item:hover {
+  background: var(--pp-green-100);
+}
+
+.grocery-name {
+  font-weight: 700;
+  color: var(--pp-ink);
+}
+
+/* Purchased items recede so what is left stands out. */
 .grocery-purchased {
   text-decoration: line-through;
-  color: #6c757d;
+  color: var(--pp-muted);
+  font-weight: 500;
+}
+
+/* Quantity stepper: digits stay aligned as the number changes. */
+.grocery-qty {
+  font-variant-numeric: tabular-nums;
+  min-width: 2.25rem;
+  text-align: center;
 }

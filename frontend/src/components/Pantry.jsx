@@ -65,12 +65,14 @@ function Pantry() {
 
   return (
     <section className="pantry-page">
-      <h2 className="h4">Pantry</h2>
-      <p className="text-muted small">
-        Add what you have. Items expiring soonest show first.
+      <h2 className="pp-page-title">Your Pantry</h2>
+      <p className="pp-page-intro">
+        Everything you have at home, soonest to expire first — so nothing gets
+        forgotten at the back of the shelf.
       </p>
 
-      <form onSubmit={save} className="mb-3">
+      <form onSubmit={save} className="pp-panel">
+        <p className="pp-label mb-3">{editId ? 'Edit item' : 'Add an item'}</p>
         <div className="row g-2 mb-2">
           <div className="col-sm-4">
             <input
@@ -142,16 +144,22 @@ function Pantry() {
 
       {error && <p className="text-danger">{error}</p>}
 
-      <ul className="list-group">
-        {items.map((item) => (
-          <PantryItem
-            key={item._id}
-            item={item}
-            onEdit={() => edit(item)}
-            onDelete={() => remove(item._id)}
-          />
-        ))}
-      </ul>
+      {items.length === 0 ? (
+        <p className="pp-empty">
+          Nothing in your pantry yet. Add your first item above.
+        </p>
+      ) : (
+        <ul className="list-group">
+          {items.map((item) => (
+            <PantryItem
+              key={item._id}
+              item={item}
+              onEdit={() => edit(item)}
+              onDelete={() => remove(item._id)}
+            />
+          ))}
+        </ul>
+      )}
     </section>
   );
 }

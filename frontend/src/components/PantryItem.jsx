@@ -12,14 +12,16 @@ function PantryItem({ item, onEdit, onDelete }) {
 
   return (
     <li className="list-group-item d-flex align-items-center gap-2 flex-wrap">
-      <span className="fw-semibold">{item.name}</span>
+      <span className="pantry-name">{item.name}</span>
       <span className="badge text-bg-success">{item.category}</span>
-      <span className={d !== null && d <= 3 ? 'pantry-soon' : ''}>
+      <span className={d !== null && d <= 3 ? 'pantry-soon' : 'pantry-date'}>
         {item.expirationDate
           ? new Date(item.expirationDate).toLocaleDateString()
           : 'No date'}
       </span>
-      <span className="ms-auto text-muted small">Qty: {item.quantity}</span>
+      <span className="ms-auto text-muted small pp-num">
+        Qty {item.quantity}
+      </span>
       <button className="btn btn-sm btn-outline-secondary" onClick={onEdit}>
         Edit
       </button>

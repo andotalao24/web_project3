@@ -1,14 +1,46 @@
 /* Pantry page — component-specific styles. */
+
 .pantry-page .list-group-item {
   border-left: 3px solid transparent;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
 }
 
 .pantry-page .list-group-item:hover {
-  border-left-color: #0a6510;
+  border-left-color: var(--pp-green-600);
+  background: var(--pp-green-100);
 }
 
-/* Highlight items that expire within a few days. */
+/* Expiring soon: state shown as a pill, not just coloured text, so it
+   reads at a glance and does not rely on colour alone. */
 .pantry-soon {
-  color: #ed9d94;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pp-space-1);
+  font-size: 0.8125rem;
   font-weight: 600;
+  color: var(--pp-amber);
+  background: #fdf1e3;
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.pantry-soon::before {
+  content: '●';
+  font-size: 0.55rem;
+  line-height: 1;
+}
+
+/* Normal expiry date: quiet, aligned with other row metadata. */
+.pantry-date {
+  font-size: 0.8125rem;
+  color: var(--pp-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.pantry-name {
+  font-weight: 700;
+  color: var(--pp-ink);
 }

@@ -43,9 +43,7 @@ function App() {
 
   const tab = (key, label) => (
     <button
-      className={`btn btn-sm me-2 ${
-        page === key ? 'btn-light' : 'btn-outline-light'
-      }`}
+      className={`app-tab btn btn-sm ${page === key ? 'is-active' : ''}`}
       onClick={() => setPage(key)}
     >
       {label}
@@ -54,14 +52,15 @@ function App() {
 
   return (
     <div className="app d-flex flex-column min-vh-100">
-      <nav className="app-nav navbar navbar-dark bg-success px-3">
-        <span className="navbar-brand mb-0">🥫 PantryPal</span>
+      <nav className="app-nav navbar px-3">
+        <span className="app-brand navbar-brand mb-0">🥫 PantryPal</span>
         <div className="d-flex align-items-center">
           {tab('pantry', 'Pantry')}
           {tab('grocery', 'Grocery')}
           {tab('suggestions', 'Suggestions')}
-          <button className="btn btn-sm btn-danger ms-2" onClick={logout}>
-            Log out ({user.username})
+          <button className="app-logout btn btn-sm ms-3" onClick={logout}>
+            Log out
+            <span className="app-username">{user.username}</span>
           </button>
         </div>
       </nav>

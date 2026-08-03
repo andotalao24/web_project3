@@ -1,4 +1,247 @@
-/* Bootstrap does the heavy lifting. Only a couple of small touches here. */
+/* ==========================================================================
+   PantryPal design system
+   One palette, one type scale, one spacing scale — used by every component.
+   Bootstrap supplies layout; these tokens supply the identity.
+   ========================================================================== */
+
+:root {
+  /* --- Brand greens: a fresh-produce palette, deep to light --- */
+  --pp-green-900: #143d23; /* darkest — nav gradient, hover states */
+  --pp-green-700: #1e5631; /* primary brand — headings, nav */
+  --pp-green-600: #2e7d46; /* primary action — approve buttons */
+  --pp-green-300: #7fb98f; /* focus rings */
+  --pp-green-100: #e8f1e9; /* tint — badges, hover rows */
+
+  /* --- Semantic colors: one meaning each, used app-wide --- */
+  --pp-amber: #97440a; /* "use soon" warning — urgent, not destructive */
+  --pp-crimson: #b3261e; /* destructive only — delete / remove */
+
+  /* --- Neutrals: biased green so they read as chosen, not default --- */
+  --pp-ground: #f7f9f6; /* page background */
+  --pp-surface: #ffffff; /* cards, rows */
+  --pp-ink: #1a1f1b; /* primary text */
+  --pp-muted: #5e6b60; /* secondary text */
+  --pp-line: #dde5dd; /* borders, dividers */
+
+  /* --- Type --- */
+  --pp-font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --pp-font-ui: 'Karla', 'Segoe UI', Helvetica, Arial, sans-serif;
+
+  /* --- Spacing scale: every gap in the app is one of these --- */
+  --pp-space-1: 0.25rem;
+  --pp-space-2: 0.5rem;
+  --pp-space-3: 0.75rem;
+  --pp-space-4: 1rem;
+  --pp-space-5: 1.5rem;
+  --pp-space-6: 2rem;
+
+  --pp-radius: 10px;
+
+  /* --- Bootstrap theme overrides so utilities match our palette --- */
+  --bs-success: var(--pp-green-600);
+  --bs-success-rgb: 46, 125, 70;
+  --bs-danger: var(--pp-crimson);
+  --bs-danger-rgb: 179, 38, 30;
+  --bs-body-color: var(--pp-ink);
+  --bs-body-bg: var(--pp-ground);
+  --bs-border-color: var(--pp-line);
+  --bs-link-color: var(--pp-green-700);
+  --bs-link-hover-color: var(--pp-green-900);
+}
+
+/* --------------------------------------------------------------------------
+   Base typography
+   -------------------------------------------------------------------------- */
+
 body {
-  background: #f5f7f5;
+  margin: 0;
+  background: var(--pp-ground);
+  color: var(--pp-ink);
+  font-family: var(--pp-font-ui);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Headings carry the display face — this is the app's voice. */
+h1,
+h2,
+.pp-display {
+  font-family: var(--pp-font-display);
+  font-weight: 600;
+  color: var(--pp-green-700);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+/* Page title: the most salient element in the content area. */
+.pp-page-title {
+  font-family: var(--pp-font-display);
+  font-weight: 700;
+  font-size: 1.75rem;
+  color: var(--pp-green-700);
+  margin: 0 0 var(--pp-space-1);
+}
+
+/* One-line explainer under each page title. */
+.pp-page-intro {
+  color: var(--pp-muted);
+  font-size: 0.9375rem;
+  margin: 0 0 var(--pp-space-5);
+  max-width: 60ch;
+}
+
+h3,
+h4,
+h5 {
+  font-family: var(--pp-font-ui);
+  font-weight: 700;
+  color: var(--pp-ink);
+}
+
+/* Small uppercase labels get tracking so they read as labels. */
+.pp-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pp-muted);
+}
+
+/* Digits that sit in columns (quantities, dates) line up. */
+.pp-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   Buttons — the approve / cancel / destructive contract.
+   These three roles mean the same thing on every page of the app:
+     .btn-success          → approve, confirm, primary action
+     .btn-outline-secondary → cancel, neutral secondary action
+     .btn-outline-danger    → destructive (delete / remove) only
+   -------------------------------------------------------------------------- */
+
+.btn {
+  --bs-btn-font-family: var(--pp-font-ui);
+  --bs-btn-font-weight: 600;
+  --bs-btn-border-radius: 8px;
+}
+
+/* APPROVE */
+.btn-success {
+  --bs-btn-bg: var(--pp-green-600);
+  --bs-btn-border-color: var(--pp-green-600);
+  --bs-btn-hover-bg: var(--pp-green-700);
+  --bs-btn-hover-border-color: var(--pp-green-700);
+  --bs-btn-active-bg: var(--pp-green-900);
+  --bs-btn-active-border-color: var(--pp-green-900);
+}
+
+/* CANCEL / neutral */
+.btn-outline-secondary {
+  --bs-btn-color: var(--pp-muted);
+  --bs-btn-border-color: var(--pp-line);
+  --bs-btn-hover-color: var(--pp-ink);
+  --bs-btn-hover-bg: var(--pp-green-100);
+  --bs-btn-hover-border-color: var(--pp-green-300);
+  --bs-btn-active-color: var(--pp-ink);
+  --bs-btn-active-bg: var(--pp-green-100);
+  --bs-btn-active-border-color: var(--pp-green-300);
+}
+
+/* Guard: if an outline-success ever appears, it uses our green, never
+   Bootstrap's default #198754. */
+.btn-outline-success {
+  --bs-btn-color: var(--pp-green-700);
+  --bs-btn-border-color: var(--pp-green-600);
+  --bs-btn-hover-bg: var(--pp-green-600);
+  --bs-btn-hover-border-color: var(--pp-green-600);
+  --bs-btn-active-bg: var(--pp-green-700);
+  --bs-btn-active-border-color: var(--pp-green-700);
+}
+
+/* DESTRUCTIVE */
+.btn-outline-danger {
+  --bs-btn-color: var(--pp-crimson);
+  --bs-btn-border-color: var(--pp-line);
+  --bs-btn-hover-bg: var(--pp-crimson);
+  --bs-btn-hover-border-color: var(--pp-crimson);
+  --bs-btn-active-bg: var(--pp-crimson);
+  --bs-btn-active-border-color: var(--pp-crimson);
+}
+
+/* --------------------------------------------------------------------------
+   Form controls and shared surfaces
+   -------------------------------------------------------------------------- */
+
+.form-control,
+.form-select {
+  font-family: var(--pp-font-ui);
+  border-color: var(--pp-line);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+}
+
+.form-control:focus,
+.form-select:focus,
+.btn:focus-visible {
+  border-color: var(--pp-green-300);
+  box-shadow: 0 0 0 0.2rem rgba(46, 125, 70, 0.2);
+}
+
+.form-check-input:checked {
+  background-color: var(--pp-green-600);
+  border-color: var(--pp-green-600);
+}
+
+.card {
+  border-color: var(--pp-line);
+  border-radius: var(--pp-radius);
+  background: var(--pp-surface);
+}
+
+.list-group-item {
+  border-color: var(--pp-line);
+  padding: var(--pp-space-3) var(--pp-space-4);
+}
+
+/* Category chips. */
+.badge.text-bg-success {
+  background: var(--pp-green-100) !important;
+  color: var(--pp-green-700) !important;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.text-muted {
+  color: var(--pp-muted) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Shared page scaffolding
+   -------------------------------------------------------------------------- */
+
+/* The add/edit panel that sits above each list. */
+.pp-panel {
+  background: var(--pp-surface);
+  border: 1px solid var(--pp-line);
+  border-radius: var(--pp-radius);
+  padding: var(--pp-space-4);
+  margin-bottom: var(--pp-space-5);
+}
+
+/* Empty-state message when a list has no items. */
+.pp-empty {
+  text-align: center;
+  color: var(--pp-muted);
+  padding: var(--pp-space-6) var(--pp-space-4);
+  border: 1px dashed var(--pp-line);
+  border-radius: var(--pp-radius);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

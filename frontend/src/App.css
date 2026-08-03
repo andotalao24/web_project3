@@ -1,13 +1,81 @@
-/* App shell — component-specific styles. */
-.app-main {
-  max-width: 720px;
+/* App shell — navigation, page frame, footer. */
+
+.app-nav {
+  background: linear-gradient(100deg, var(--pp-green-900), var(--pp-green-700));
+  padding-top: var(--pp-space-3);
+  padding-bottom: var(--pp-space-3);
+  gap: var(--pp-space-4);
+  flex-wrap: wrap;
 }
 
-.app-nav .navbar-brand {
+/* Brand: the app's identity, top-left, in the display face. */
+.app-brand {
+  font-family: var(--pp-font-display);
   font-weight: 700;
+  font-size: 1.25rem;
+  color: #fff;
+  margin-right: auto;
+}
+
+/* Tabs: quiet until active, then clearly the current place. */
+.app-tab {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.82);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 0.35rem 0.85rem;
+  margin-left: var(--pp-space-1);
+}
+
+.app-tab:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.app-tab.is-active {
+  color: var(--pp-green-700);
+  background: #fff;
+}
+
+/* Log out is a minor action — it must not outshout the tabs. */
+.app-logout {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pp-space-2);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
+  padding: 0.3rem 0.7rem;
+}
+
+.app-logout:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.app-username {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* Content column: one measure, consistent rhythm. */
+.app-main {
+  max-width: 760px;
+  padding-top: var(--pp-space-6);
+  padding-bottom: var(--pp-space-6);
 }
 
 .app-footer {
-  border-top: 1px solid #e2e8e2;
+  border-top: 1px solid var(--pp-line);
+  color: var(--pp-muted);
   font-size: 0.85rem;
+  padding: var(--pp-space-4);
 }

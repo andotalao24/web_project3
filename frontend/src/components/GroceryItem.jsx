@@ -10,11 +10,7 @@ function GroceryItem({ item, onUpdate, onDelete }) {
         checked={item.purchased}
         onChange={(e) => onUpdate({ purchased: e.target.checked })}
       />
-      <span
-        className={
-          item.purchased ? 'fw-semibold grocery-purchased' : 'fw-semibold'
-        }
-      >
+      <span className={item.purchased ? 'grocery-purchased' : 'grocery-name'}>
         {item.name}
       </span>
       <span className="badge text-bg-success">{item.category}</span>
@@ -25,7 +21,7 @@ function GroceryItem({ item, onUpdate, onDelete }) {
         >
           −
         </button>
-        <span className="btn btn-outline-secondary disabled">
+        <span className="btn btn-outline-secondary disabled grocery-qty">
           {item.quantity}
         </span>
         <button
