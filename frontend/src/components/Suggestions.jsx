@@ -31,26 +31,39 @@ function Suggestions() {
 
   return (
     <section className="suggestions-page">
-      <h2 className="pp-page-title">What Should I Cook?</h2>
+      <h1 className="pp-page-title">Recipes</h1>
       <p className="pp-page-intro">
         Too tired to decide? PantryPal shuffles what you already own into a
         combination — no recipe service, just your own shelves.
       </p>
 
-      <div className="pp-panel d-flex flex-wrap gap-2 align-items-center">
-        <button className="btn btn-success" onClick={surprise}>
+      <div className="pp-panel d-flex flex-wrap gap-2 align-items-end">
+        <button type="button" className="btn btn-success" onClick={surprise}>
           Surprise me
         </button>
-        <select
-          className="form-select w-auto"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+        <div>
+          <label
+            className="form-label pp-field-label"
+            htmlFor="suggestion-category"
+          >
+            Category
+          </label>
+          <select
+            id="suggestion-category"
+            className="form-select w-auto"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            {CATEGORIES.map((c) => (
+              <option key={c}>{c}</option>
+            ))}
+          </select>
+        </div>
+        <button
+          type="button"
+          className="btn btn-outline-secondary"
+          onClick={fromCategory}
         >
-          {CATEGORIES.map((c) => (
-            <option key={c}>{c}</option>
-          ))}
-        </select>
-        <button className="btn btn-outline-secondary" onClick={fromCategory}>
           Suggest from category
         </button>
       </div>

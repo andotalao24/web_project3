@@ -33,6 +33,20 @@ function App() {
     fetchUser();
   }, []);
 
+  // A single-page app never reloads, so the document title has to be kept in
+  // step by hand. Screen readers announce it on every view change, and it is
+  // what labels the browser tab.
+  useEffect(() => {
+    const titles = {
+      pantry: 'Pantry',
+      grocery: 'Shopping Cart',
+      suggestions: 'Recipes',
+    };
+    document.title = user
+      ? `${titles[page]} · PantryPal`
+      : 'Log in · PantryPal — track your food and shopping list';
+  }, [page, user]);
+
   async function logout() {
     await api.post('/auth/logout');
     setUser(null);
@@ -44,6 +58,7 @@ function App() {
   const tab = (key, label) => (
     <button
       className={`app-tab btn btn-sm ${page === key ? 'is-active' : ''}`}
+      aria-current={page === key ? 'page' : undefined}
       onClick={() => setPage(key)}
     >
       {label}
@@ -52,12 +67,17 @@ function App() {
 
   return (
     <div className="app d-flex flex-column min-vh-100">
+      {/* First tab stop: lets keyboard users jump past the nav. */}
+      <a className="skip-link" href="#main">
+        Skip to main content
+      </a>
+
       <nav className="app-nav navbar px-3">
-        <span className="app-brand navbar-brand mb-0">🥫 PantryPal</span>
+        <span className="app-brand navbar-brand mb-0">PantryPal</span>
         <div className="d-flex align-items-center">
           {tab('pantry', 'Pantry')}
-          {tab('grocery', 'Grocery')}
-          {tab('suggestions', 'Suggestions')}
+          {tab('grocery', 'Shopping Cart')}
+          {tab('suggestions', 'Recipes')}
           <button className="app-logout btn btn-sm ms-3" onClick={logout}>
             Log out
             <span className="app-username">{user.username}</span>
@@ -65,7 +85,11 @@ function App() {
         </div>
       </nav>
 
-      <main className="app-main container my-4 flex-grow-1">
+      <main
+        id="main"
+        className="app-main container my-4 flex-grow-1"
+        tabIndex={-1}
+      >
         {page === 'pantry' && <Pantry />}
         {page === 'grocery' && <Grocery />}
         {page === 'suggestions' && <Suggestions />}

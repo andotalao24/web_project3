@@ -8,6 +8,7 @@ function GroceryItem({ item, onUpdate, onDelete }) {
         className="form-check-input mt-0"
         type="checkbox"
         checked={item.purchased}
+        aria-label={`Mark ${item.name} as purchased`}
         onChange={(e) => onUpdate({ purchased: e.target.checked })}
       />
       <span className={item.purchased ? 'grocery-purchased' : 'grocery-name'}>
@@ -16,22 +17,32 @@ function GroceryItem({ item, onUpdate, onDelete }) {
       <span className="badge text-bg-success">{item.category}</span>
       <span className="ms-auto btn-group btn-group-sm">
         <button
+          type="button"
           className="btn btn-outline-secondary"
+          aria-label={`Decrease quantity of ${item.name}`}
           onClick={() => onUpdate({ quantity: Math.max(1, item.quantity - 1) })}
         >
           −
         </button>
         <span className="btn btn-outline-secondary disabled grocery-qty">
+          <span className="visually-hidden">Quantity </span>
           {item.quantity}
         </span>
         <button
+          type="button"
           className="btn btn-outline-secondary"
+          aria-label={`Increase quantity of ${item.name}`}
           onClick={() => onUpdate({ quantity: item.quantity + 1 })}
         >
           +
         </button>
       </span>
-      <button className="btn btn-sm btn-outline-danger" onClick={onDelete}>
+      <button
+        type="button"
+        className="btn btn-sm btn-outline-danger"
+        aria-label={`Remove ${item.name} from the shopping cart`}
+        onClick={onDelete}
+      >
         Remove
       </button>
     </li>

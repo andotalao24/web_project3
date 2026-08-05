@@ -44,15 +44,19 @@ function Grocery() {
 
   return (
     <section className="grocery-page">
-      <h2 className="pp-page-title">Grocery List</h2>
+      <h1 className="pp-page-title">Shopping Cart</h1>
       <p className="pp-page-intro">
         What you still need to buy. Tick items off as you shop, then clear them
         once they are home.
       </p>
 
-      <form className="pp-panel row g-2" onSubmit={add}>
+      <form className="pp-panel row g-2 align-items-end" onSubmit={add}>
         <div className="col">
+          <label className="form-label pp-field-label" htmlFor="grocery-name">
+            Item
+          </label>
           <input
+            id="grocery-name"
             className="form-control"
             placeholder="e.g. Milk"
             value={name}
@@ -60,7 +64,14 @@ function Grocery() {
           />
         </div>
         <div className="col-auto">
+          <label
+            className="form-label pp-field-label"
+            htmlFor="grocery-category"
+          >
+            Category
+          </label>
           <select
+            id="grocery-category"
             className="form-select"
             value={category}
             onChange={(e) => setCategory(e.target.value)}

@@ -13,7 +13,6 @@
   --pp-green-100: #e8f1e9; /* tint — badges, hover rows */
 
   /* --- Semantic colors: one meaning each, used app-wide --- */
-  --pp-amber: #97440a; /* "use soon" warning — urgent, not destructive */
   --pp-crimson: #b3261e; /* destructive only — delete / remove */
 
   /* --- Neutrals: biased green so they read as chosen, not default --- */
@@ -65,8 +64,7 @@ body {
 
 /* Headings carry the display face — this is the app's voice. */
 h1,
-h2,
-.pp-display {
+h2 {
   font-family: var(--pp-font-display);
   font-weight: 600;
   color: var(--pp-green-700);
@@ -97,6 +95,41 @@ h5 {
   font-family: var(--pp-font-ui);
   font-weight: 700;
   color: var(--pp-ink);
+}
+
+/* Field labels: small and quiet, but always present for screen readers
+   and for anyone who cannot guess what an unlabelled date box means. */
+.pp-field-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pp-muted);
+  margin-bottom: 0.2rem;
+}
+
+/* Skip link: hidden until focused, then the first thing on the page. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--pp-green-700);
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 0 0 8px 0;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+/* Every interactive element shows a clear focus ring for keyboard users. */
+:focus-visible {
+  outline: 3px solid var(--pp-green-600);
+  outline-offset: 2px;
 }
 
 /* Small uppercase labels get tracking so they read as labels. */

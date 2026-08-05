@@ -8,13 +8,19 @@
   flex-wrap: wrap;
 }
 
-/* Brand: the app's identity, top-left, in the display face. */
+/* Brand: the app's identity, top-left, in the display face. The can is CSS
+   decoration so screen readers announce "PantryPal", not "canned food". */
 .app-brand {
   font-family: var(--pp-font-display);
   font-weight: 700;
   font-size: 1.25rem;
   color: #fff;
   margin-right: auto;
+}
+
+.app-brand::before {
+  content: '🥫';
+  margin-right: 0.4rem;
 }
 
 /* Tabs: quiet until active, then clearly the current place. */
@@ -57,12 +63,15 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
+/* Full-strength white: at 85% on the translucent pill this text fell to
+   4.4:1 on the lighter end of the nav gradient, just under the 4.5 minimum. */
 .app-username {
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.03em;
   padding: 0.05rem 0.4rem;
   border-radius: 999px;
+  color: #fff;
   background: rgba(255, 255, 255, 0.18);
 }
 

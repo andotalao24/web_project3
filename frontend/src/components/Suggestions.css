@@ -38,11 +38,12 @@
   color: var(--pp-ink);
 }
 
+/* No opacity here: fading this text drops it below the 4.5:1 contrast
+   minimum at this size. Use the full-strength colour instead. */
 .suggestion-chip-cat {
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--pp-green-700);
-  opacity: 0.75;
 }

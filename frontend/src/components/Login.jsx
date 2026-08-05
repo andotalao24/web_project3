@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { api } from '../api';
 import './Login.css';
 
-// Decorative floating food icons for the login backdrop.
-const FLOATERS = ['🥕', '🍞', '🧀', '🍅', '🥚', '🥦', '🍎', '🥫'];
+// Eight decorative floating icons. The emoji themselves live in Login.css so
+// they are CSS decoration rather than page content — nothing for a screen
+// reader to reach, and nothing that is "visible but hidden".
+const FLOATER_COUNT = 8;
 
 function Login({ onLogin }) {
   const [mode, setMode] = useState('login');
@@ -24,40 +26,62 @@ function Login({ onLogin }) {
   }
 
   return (
-    <div className="login-page">
+    <main className="login-page">
       {/* floating background icons (decorative only) */}
-      <div className="login-floaters" aria-hidden="true">
-        {FLOATERS.map((f, i) => (
-          <span key={i} className={`floater floater-${i}`}>
-            {f}
-          </span>
+      <div className="login-floaters">
+        {Array.from({ length: FLOATER_COUNT }, (_, i) => (
+          <span key={i} className={`floater floater-${i}`} />
         ))}
       </div>
 
-      <form className="login-card card p-4 shadow" onSubmit={submit}>
-        <div className="login-logo">🥫</div>
+      <form
+        className="login-card card p-4 shadow"
+        onSubmit={submit}
+        aria-label={mode === 'login' ? 'Log in' : 'Create an account'}
+      >
+        <div className="login-logo" />
         <h1 className="login-title h3 text-center">PantryPal</h1>
         <p className="login-tagline text-center text-muted small mb-4">
           Track your food. Waste less. Shop smarter.
         </p>
 
+        {/* Announces the switch between logging in and registering, which is
+            otherwise only visible as changed button text. */}
+        <p className="visually-hidden" aria-live="polite">
+          {mode === 'login'
+            ? 'Log in form shown.'
+            : 'Create an account form shown.'}
+        </p>
+
+        <label className="form-label pp-field-label" htmlFor="login-username">
+          Username
+        </label>
         <input
+          id="login-username"
           className="form-control mb-2"
-          placeholder="Username"
+          autoComplete="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
         />
+        <label className="form-label pp-field-label" htmlFor="login-password">
+          Password
+        </label>
         <input
+          id="login-password"
           className="form-control mb-2"
           type="password"
-          placeholder="Password"
+          autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
 
-        {error && <p className="text-danger small">{error}</p>}
+        {error && (
+          <p className="text-danger small" role="alert">
+            {error}
+          </p>
+        )}
 
         <button className="btn btn-success mb-2" type="submit">
           {mode === 'login' ? 'Log in' : 'Register'}
@@ -72,7 +96,7 @@ function Login({ onLogin }) {
             : 'Have an account? Log in'}
         </button>
       </form>
-    </div>
+    </main>
   );
 }
 

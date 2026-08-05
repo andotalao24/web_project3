@@ -12,16 +12,17 @@ function buildItem(body) {
     name: (body.name || '').trim(),
     category: (body.category || 'Other').trim(),
     quantity: Number(body.quantity) || 1,
-    expirationDate: body.expirationDate ? new Date(body.expirationDate) : null,
+    purchaseDate: body.purchaseDate ? new Date(body.purchaseDate) : null,
     notes: (body.notes || '').trim(),
   };
 }
 
-// GET /api/pantry — list all pantry items (optionally sorted by expiration).
+// GET /api/pantry — list all pantry items.
+// ?sort=purchased puts the most recently bought items first.
 router.get('/', async (req, res, next) => {
   try {
     const sort =
-      req.query.sort === 'expiration' ? { expirationDate: 1 } : { name: 1 };
+      req.query.sort === 'purchased' ? { purchaseDate: -1 } : { name: 1 };
     const items = await collection().find({}).sort(sort).limit(500).toArray();
     res.json(items);
   } catch (err) {

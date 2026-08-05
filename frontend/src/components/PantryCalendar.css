@@ -1,0 +1,186 @@
+/* Pantry calendar — month grid of shopping days. */
+
+.cal {
+  background: var(--pp-surface);
+  border: 1px solid var(--pp-line);
+  border-radius: var(--pp-radius);
+  padding: var(--pp-space-4);
+  margin-bottom: var(--pp-space-5);
+}
+
+.cal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pp-space-3);
+  margin-bottom: var(--pp-space-4);
+}
+
+.cal-month {
+  font-family: var(--pp-font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--pp-green-700);
+  margin: 0;
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.cal-weekdays {
+  margin-bottom: 4px;
+}
+
+.cal-weekday {
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pp-muted);
+  padding-bottom: var(--pp-space-1);
+}
+
+/* Each day is a button so keyboard users can reach it. */
+.cal-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+  min-height: 76px;
+  padding: 4px 5px;
+  border: 1px solid var(--pp-line);
+  border-radius: 6px;
+  background: var(--pp-surface);
+  text-align: left;
+  font: inherit;
+  overflow: hidden;
+}
+
+.cal-cell.is-blank {
+  border-color: transparent;
+  background: transparent;
+}
+
+.cal-cell:not(.is-blank) {
+  position: relative;
+  cursor: pointer;
+}
+
+.cal-cell:not(.is-blank):hover {
+  border-color: var(--pp-green-300);
+}
+
+/* Hint that clicking a day sets up an add for that date. */
+.cal-cell:not(.is-blank)::after {
+  content: '+';
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--pp-green-600);
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+
+.cal-cell:not(.is-blank):hover::after,
+.cal-cell:not(.is-blank):focus-visible::after {
+  opacity: 1;
+}
+
+.cal-date {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--pp-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.cal-cell.is-today .cal-date {
+  color: #fff;
+  background: var(--pp-green-600);
+  border-radius: 999px;
+  width: 1.35rem;
+  height: 1.35rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cal-cell.is-selected {
+  border-color: var(--pp-green-600);
+  box-shadow: 0 0 0 2px rgba(46, 125, 70, 0.25);
+}
+
+/* Days you went shopping stand out from empty days. */
+.cal-cell.has-items {
+  background: var(--pp-green-100);
+  border-color: #c5ddc9;
+}
+
+.cal-names {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.cal-chip {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--pp-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cal-more {
+  font-size: 0.62rem;
+  color: var(--pp-muted);
+}
+
+/* Legend */
+.cal-legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--pp-space-2);
+  margin: var(--pp-space-4) 0 0;
+  font-size: 0.75rem;
+  color: var(--pp-muted);
+}
+
+.cal-key {
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  border: 1px solid var(--pp-line);
+  margin-left: var(--pp-space-2);
+}
+.cal-key.has-items {
+  background: var(--pp-green-100);
+  border-color: #c5ddc9;
+  margin-left: 0;
+}
+
+.cal-undated {
+  margin-left: auto;
+  font-style: italic;
+}
+
+/* Narrow screens: keep the grid usable. */
+@media (max-width: 560px) {
+  .cal-cell {
+    min-height: 58px;
+  }
+  .cal-chip {
+    font-size: 0.6rem;
+  }
+  .cal-more {
+    display: none;
+  }
+}

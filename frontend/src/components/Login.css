@@ -56,42 +56,67 @@
   }
 }
 
-/* Spread the icons out and stagger their timing. */
+/* Spread the icons out and stagger their timing. The emoji are CSS content,
+   so they are decoration rather than text a screen reader could reach. */
 .floater-0 {
   left: 8%;
   animation-delay: 0s;
+}
+.floater-0::before {
+  content: '🥕';
 }
 .floater-1 {
   left: 20%;
   animation-delay: 3s;
   font-size: 1.5rem;
 }
+.floater-1::before {
+  content: '🍞';
+}
 .floater-2 {
   left: 32%;
   animation-delay: 7s;
+}
+.floater-2::before {
+  content: '🧀';
 }
 .floater-3 {
   left: 45%;
   animation-delay: 1.5s;
   font-size: 2.5rem;
 }
+.floater-3::before {
+  content: '🍅';
+}
 .floater-4 {
   left: 58%;
   animation-delay: 5s;
+}
+.floater-4::before {
+  content: '🥚';
 }
 .floater-5 {
   left: 70%;
   animation-delay: 9s;
   font-size: 1.6rem;
 }
+.floater-5::before {
+  content: '🥦';
+}
 .floater-6 {
   left: 82%;
   animation-delay: 2.5s;
+}
+.floater-6::before {
+  content: '🍎';
 }
 .floater-7 {
   left: 92%;
   animation-delay: 6.5s;
   font-size: 2.4rem;
+}
+.floater-7::before {
+  content: '🥫';
 }
 
 /* The card: frosted glass, gentle entrance. */
@@ -116,11 +141,15 @@
   }
 }
 
-/* Bouncing can logo. */
+/* Bouncing can logo — decorative, so the emoji is CSS content. */
 .login-logo {
   font-size: 3rem;
   text-align: center;
   animation: logo-bob 2.5s ease-in-out infinite;
+}
+
+.login-logo::before {
+  content: '🥫';
 }
 
 @keyframes logo-bob {

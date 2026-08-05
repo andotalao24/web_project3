@@ -50,10 +50,11 @@ const NOTES = ['', 'Opened', 'Almost gone', 'Bulk buy', 'For dinner'];
 
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-// Random date from 15 days ago to ~3 months ahead.
-function randomDate() {
+// A shopping date in the recent past — you cannot buy food in the future.
+function randomPurchaseDate() {
   const d = new Date();
-  d.setDate(d.getDate() + Math.floor(Math.random() * 120) - 15);
+  d.setDate(d.getDate() - Math.floor(Math.random() * 60));
+  d.setHours(0, 0, 0, 0);
   return d;
 }
 
@@ -70,7 +71,7 @@ async function seed() {
       name: pick(FOODS),
       category: pick(CATEGORIES),
       quantity: 1 + Math.floor(Math.random() * 10),
-      expirationDate: randomDate(),
+      purchaseDate: randomPurchaseDate(),
       notes: pick(NOTES),
     })),
   );

@@ -12,28 +12,7 @@
   background: var(--pp-green-100);
 }
 
-/* Expiring soon: state shown as a pill, not just coloured text, so it
-   reads at a glance and does not rely on colour alone. */
-.pantry-soon {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--pp-space-1);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--pp-amber);
-  background: #fdf1e3;
-  border-radius: 999px;
-  padding: 0.1rem 0.6rem;
-  font-variant-numeric: tabular-nums;
-}
-
-.pantry-soon::before {
-  content: '●';
-  font-size: 0.55rem;
-  line-height: 1;
-}
-
-/* Normal expiry date: quiet, aligned with other row metadata. */
+/* Purchase date: quiet, aligned with other row metadata. */
 .pantry-date {
   font-size: 0.8125rem;
   color: var(--pp-muted);
@@ -43,4 +22,95 @@
 .pantry-name {
   font-weight: 700;
   color: var(--pp-ink);
+}
+
+/* Row becomes a two-part block: the summary line, then the note. */
+.pantry-row {
+  display: block;
+}
+
+.pantry-row-main {
+  display: flex;
+  align-items: center;
+  gap: var(--pp-space-2);
+  flex-wrap: wrap;
+}
+
+/* Name + caret act as the expand control. */
+.pantry-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pp-space-2);
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+}
+
+.pantry-caret {
+  display: inline-block;
+  color: var(--pp-muted);
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: transform 0.15s ease;
+}
+
+.pantry-caret.is-open {
+  transform: rotate(90deg);
+}
+
+/* Small marker so you know a row has a note before opening it. */
+.pantry-note-flag {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--pp-muted);
+  border: 1px solid var(--pp-line);
+  border-radius: 999px;
+  padding: 0.05rem 0.45rem;
+}
+
+/* The revealed note. */
+.pantry-note {
+  margin: var(--pp-space-3) 0 0;
+  padding: var(--pp-space-3);
+  background: var(--pp-green-100);
+  border-radius: 8px;
+  color: var(--pp-ink);
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+}
+
+.pantry-note-empty {
+  color: var(--pp-muted);
+  font-style: italic;
+}
+
+/* Shows which date the add form is currently aimed at. */
+.pantry-target {
+  margin-left: var(--pp-space-2);
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+  color: var(--pp-green-700);
+  background: var(--pp-green-100);
+  border-radius: 999px;
+  padding: 0.1rem 0.55rem;
+}
+
+/* Calendar / List switch. */
+.pantry-views {
+  display: flex;
+  gap: var(--pp-space-2);
+  margin-bottom: var(--pp-space-4);
+}
+
+.pp-hint {
+  color: var(--pp-muted);
+  font-size: 0.875rem;
+  text-align: center;
+  padding: var(--pp-space-4);
 }
