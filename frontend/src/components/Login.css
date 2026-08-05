@@ -140,7 +140,14 @@
   }
 }
 
-/* Holds only the sign-in form; sits above the decorative background. */
+/* Stack the fields so the submit button spans the card width, which the
+   Bootstrap card used to do when the form itself was the card. */
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Holds only the sign-in card; sits above the decorative background. */
 .login-main {
   position: relative;
   z-index: 1;
