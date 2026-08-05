@@ -1,0 +1,116 @@
+/* One recipe card in the ranked list. */
+
+.recipe {
+  background: var(--pp-surface);
+  border: 1px solid var(--pp-line);
+  border-radius: var(--pp-radius);
+  padding: var(--pp-space-4);
+}
+
+/* Recipes you can cook right now earn a green edge. */
+.recipe.is-ready {
+  border-left: 4px solid var(--pp-green-600);
+}
+
+.recipe-head {
+  display: flex;
+  align-items: center;
+  gap: var(--pp-space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--pp-space-3);
+}
+
+/* Name doubles as the control that reveals the method. */
+.recipe-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pp-space-2);
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+}
+
+.recipe-caret {
+  color: var(--pp-muted);
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: transform 0.15s ease;
+}
+
+.recipe-caret.is-open {
+  transform: rotate(90deg);
+}
+
+.recipe-name {
+  font-family: var(--pp-font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--pp-green-700);
+}
+
+.recipe-meta {
+  font-size: 0.8rem;
+  color: var(--pp-muted);
+}
+
+.recipe-status {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pp-muted);
+  border: 1px solid var(--pp-line);
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+}
+
+.recipe-status.is-ready {
+  color: var(--pp-green-700);
+  background: var(--pp-green-100);
+  border-color: #c5ddc9;
+}
+
+/* Ingredients: what you have vs what you do not, distinguished by more
+   than colour — missing ones are outlined and struck through. */
+.recipe-ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pp-space-2);
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--pp-space-3);
+}
+
+.ing {
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+}
+
+.ing.has {
+  background: var(--pp-green-100);
+  color: var(--pp-green-700);
+}
+
+.ing.missing {
+  background: transparent;
+  color: var(--pp-muted);
+  border: 1px dashed var(--pp-line);
+  text-decoration: line-through;
+}
+
+.recipe-steps {
+  margin: var(--pp-space-3) 0 0;
+  padding-left: 1.25rem;
+  color: var(--pp-ink);
+  font-size: 0.92rem;
+}
+
+.recipe-steps li {
+  margin-bottom: var(--pp-space-2);
+}

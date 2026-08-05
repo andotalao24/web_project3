@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Login from './components/Login';
 import Pantry from './components/Pantry';
 import Grocery from './components/Grocery';
-import Suggestions from './components/Suggestions';
+import Recipes from './components/Recipes';
 import { api } from './api';
 import './App.css';
 
@@ -40,7 +40,7 @@ function App() {
     const titles = {
       pantry: 'Pantry',
       grocery: 'Shopping Cart',
-      suggestions: 'Recipes',
+      recipes: 'Recipes',
     };
     document.title = user
       ? `${titles[page]} · PantryPal`
@@ -77,7 +77,7 @@ function App() {
         <div className="d-flex align-items-center">
           {tab('pantry', 'Pantry')}
           {tab('grocery', 'Shopping Cart')}
-          {tab('suggestions', 'Recipes')}
+          {tab('recipes', 'Recipes')}
           <button className="app-logout btn btn-sm ms-3" onClick={logout}>
             Log out
             <span className="app-username">{user.username}</span>
@@ -92,7 +92,7 @@ function App() {
       >
         {page === 'pantry' && <Pantry />}
         {page === 'grocery' && <Grocery />}
-        {page === 'suggestions' && <Suggestions />}
+        {page === 'recipes' && <Recipes />}
       </main>
 
       <footer className="app-footer text-center text-muted py-3">

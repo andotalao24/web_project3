@@ -4,6 +4,7 @@ import 'dotenv/config';
 
 import bcrypt from 'bcryptjs';
 import { connect, getDb, client } from './db.js';
+import { RECIPES } from './recipes-data.js';
 
 const CATEGORIES = ['Produce', 'Dairy', 'Meat', 'Grains', 'Snacks', 'Other'];
 const FOODS = [
@@ -48,6 +49,21 @@ const FOODS = [
 ];
 const NOTES = ['', 'Opened', 'Almost gone', 'Bulk buy', 'For dinner'];
 
+// A real pantry does not hold every food at once. Holding a few ingredients
+// back keeps the recipe matcher meaningful: some recipes come out cookable,
+// others one or two items short. The shopping list still draws on all foods.
+const OUT_OF_STOCK = [
+  'Salmon',
+  'Beef',
+  'Almonds',
+  'Mushrooms',
+  'Flour',
+  'Strawberries',
+  'Corn',
+  'Carrots',
+];
+const PANTRY_FOODS = FOODS.filter((f) => !OUT_OF_STOCK.includes(f));
+
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 // A shopping date in the recent past — you cannot buy food in the future.
@@ -64,11 +80,15 @@ async function seed() {
 
   await db.collection('pantryItems').deleteMany({});
   await db.collection('groceryItems').deleteMany({});
+  await db.collection('recipes').deleteMany({});
   await db.collection('users').deleteMany({});
+
+  // Recipes are curated, not generated — they are the app's own reference data.
+  await db.collection('recipes').insertMany(RECIPES.map((r) => ({ ...r })));
 
   await db.collection('pantryItems').insertMany(
     Array.from({ length: 800 }, () => ({
-      name: pick(FOODS),
+      name: pick(PANTRY_FOODS),
       category: pick(CATEGORIES),
       quantity: 1 + Math.floor(Math.random() * 10),
       purchaseDate: randomPurchaseDate(),
@@ -90,7 +110,10 @@ async function seed() {
     passwordHash: await bcrypt.hash('demo1234', 10),
   });
 
-  console.log('Seeded 1100 records + demo user (demo / demo1234)');
+  console.log(
+    `Seeded 800 pantry + 300 grocery + ${RECIPES.length} recipes ` +
+      '+ demo user (demo / demo1234)',
+  );
   await client.close();
 }
 

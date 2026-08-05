@@ -34,9 +34,14 @@ shuffling the user's own pantry items.
 
 - `pantryItems` — food already at home (name, category, quantity, purchase date, notes)
 - `groceryItems` — food to buy (name, category, quantity, purchased)
+- `recipes` — curated recipes (name, ingredients, minutes, servings, steps)
 - `users` — accounts for Passport authentication
 
 Both `pantryItems` and `groceryItems` support full CRUD.
+
+The recipe recommender compares each recipe's ingredients against the pantry and
+ranks them, so dishes you can cook right now appear first. Recipes are preloaded
+into MongoDB by the seed script — no external recipe API is called.
 
 ## Build & Run
 
@@ -77,8 +82,9 @@ npm run format
    note; use *List* for the full inventory. Edit or delete items as you cook and shop.
 3. **Shopping Cart** — add things to buy, adjust quantities, tick items as purchased,
    and remove them after shopping.
-4. **Recipes** — click *Surprise me* for a random food combination from your
-   pantry, or pick a category.
+4. **Recipes** — see real recipes ranked against your pantry. *Ready to cook*
+   needs nothing extra; *Missing 1–2* is one shop away, and one click sends the
+   missing ingredients to your Shopping Cart. Click a recipe name for the method.
 
 ## License
 

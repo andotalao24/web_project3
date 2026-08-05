@@ -16,7 +16,7 @@ import { isAuthenticated } from './guard.js';
 import authRoutes from './routes/auth.js';
 import pantryRoutes from './routes/pantry.js';
 import groceryRoutes from './routes/grocery.js';
-import suggestionRoutes from './routes/suggestions.js';
+import recipeRoutes from './routes/recipes.js';
 
 const PORT = process.env.PORT || 5000;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -91,7 +91,7 @@ async function main() {
   app.use('/api/auth', authRoutes);
   app.use('/api/pantry', isAuthenticated, pantryRoutes);
   app.use('/api/grocery', isAuthenticated, groceryRoutes);
-  app.use('/api/suggestions', isAuthenticated, suggestionRoutes);
+  app.use('/api/recipes', isAuthenticated, recipeRoutes);
 
   // In production, serve the built React app from the same server.
   const frontendDist = path.join(__dirname, '../frontend/dist');
