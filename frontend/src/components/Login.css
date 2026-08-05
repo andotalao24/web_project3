@@ -122,7 +122,6 @@
 /* The card: frosted glass, gentle entrance. */
 .login-card {
   width: 100%;
-  max-width: 360px;
   border: none;
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.94);
@@ -141,15 +140,12 @@
   }
 }
 
-/* Bouncing can logo — decorative, so the emoji is CSS content. */
-.login-logo {
-  font-size: 3rem;
-  text-align: center;
-  animation: logo-bob 2.5s ease-in-out infinite;
-}
-
-.login-logo::before {
-  content: '🥫';
+/* Holds only the sign-in form; sits above the decorative background. */
+.login-main {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 360px;
 }
 
 @keyframes logo-bob {
@@ -162,7 +158,8 @@
   }
 }
 
-/* The wordmark: largest, first, in the display face. */
+/* The wordmark: largest, first, in the display face. The bouncing can is a
+   CSS pseudo-element — decoration, not an empty element in the markup. */
 .login-title {
   font-family: var(--pp-font-display);
   font-size: 2rem;
@@ -170,6 +167,15 @@
   font-weight: 700;
   letter-spacing: -0.02em;
   margin: 0;
+}
+
+.login-title::before {
+  content: '🥫';
+  display: block;
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+  animation: logo-bob 2.5s ease-in-out infinite;
 }
 
 .login-tagline {
@@ -182,7 +188,7 @@
   .login-page,
   .floater,
   .login-card,
-  .login-logo {
+  .login-title::before {
     animation: none;
   }
 }

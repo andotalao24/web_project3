@@ -26,77 +26,80 @@ function Login({ onLogin }) {
   }
 
   return (
-    <main className="login-page">
-      {/* floating background icons (decorative only) */}
+    <div className="login-page">
+      {/* Decorative background, deliberately OUTSIDE <main>: it is not part
+          of the page's primary content. The icons themselves are CSS. */}
       <div className="login-floaters">
         {Array.from({ length: FLOATER_COUNT }, (_, i) => (
           <span key={i} className={`floater floater-${i}`} />
         ))}
       </div>
 
-      <form
-        className="login-card card p-4 shadow"
-        onSubmit={submit}
-        aria-label={mode === 'login' ? 'Log in' : 'Create an account'}
-      >
-        <div className="login-logo" />
-        <h1 className="login-title h3 text-center">PantryPal</h1>
-        <p className="login-tagline text-center text-muted small mb-4">
-          Track your food. Waste less. Shop smarter.
-        </p>
-
-        {/* Announces the switch between logging in and registering, which is
-            otherwise only visible as changed button text. */}
-        <p className="visually-hidden" aria-live="polite">
-          {mode === 'login'
-            ? 'Log in form shown.'
-            : 'Create an account form shown.'}
-        </p>
-
-        <label className="form-label pp-field-label" htmlFor="login-username">
-          Username
-        </label>
-        <input
-          id="login-username"
-          className="form-control mb-2"
-          autoComplete="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <label className="form-label pp-field-label" htmlFor="login-password">
-          Password
-        </label>
-        <input
-          id="login-password"
-          className="form-control mb-2"
-          type="password"
-          autoComplete="current-password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-
-        {error && (
-          <p className="text-danger small" role="alert">
-            {error}
-          </p>
-        )}
-
-        <button className="btn btn-success mb-2" type="submit">
-          {mode === 'login' ? 'Log in' : 'Register'}
-        </button>
-        <button
-          type="button"
-          className="btn btn-link btn-sm"
-          onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
+      {/* <main> holds only the sign-in form — the unique content of this page. */}
+      <main className="login-main">
+        <form
+          className="login-card card p-4 shadow"
+          onSubmit={submit}
+          aria-label={mode === 'login' ? 'Log in' : 'Create an account'}
         >
-          {mode === 'login'
-            ? 'Need an account? Register'
-            : 'Have an account? Log in'}
-        </button>
-      </form>
-    </main>
+          <h1 className="login-title h3 text-center">PantryPal</h1>
+          <p className="login-tagline text-center text-muted small mb-4">
+            Track your food. Waste less. Shop smarter.
+          </p>
+
+          {/* Announces the switch between logging in and registering, which is
+            otherwise only visible as changed button text. */}
+          <p className="visually-hidden" aria-live="polite">
+            {mode === 'login'
+              ? 'Log in form shown.'
+              : 'Create an account form shown.'}
+          </p>
+
+          <label className="form-label pp-field-label" htmlFor="login-username">
+            Username
+          </label>
+          <input
+            id="login-username"
+            className="form-control mb-2"
+            autoComplete="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+          <label className="form-label pp-field-label" htmlFor="login-password">
+            Password
+          </label>
+          <input
+            id="login-password"
+            className="form-control mb-2"
+            type="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
+          {error && (
+            <p className="text-danger small" role="alert">
+              {error}
+            </p>
+          )}
+
+          <button className="btn btn-success mb-2" type="submit">
+            {mode === 'login' ? 'Log in' : 'Register'}
+          </button>
+          <button
+            type="button"
+            className="btn btn-link btn-sm"
+            onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
+          >
+            {mode === 'login'
+              ? 'Need an account? Register'
+              : 'Have an account? Log in'}
+          </button>
+        </form>
+      </main>
+    </div>
   );
 }
 
