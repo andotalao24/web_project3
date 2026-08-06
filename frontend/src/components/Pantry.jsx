@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { api } from '../api';
 import PantryItem from './PantryItem';
+import PantryGroup from './PantryGroup';
 import PantryCalendar from './PantryCalendar';
 import './Pantry.css';
 
@@ -94,6 +95,32 @@ function Pantry() {
         (i) => i.purchaseDate && dayKey(i.purchaseDate) === selectedDay,
       )
     : items;
+
+  // The list view is an inventory, so the same food bought on several days
+  // collapses into one row carrying its running total. Each purchase stays
+  // separately editable underneath.
+  const groups = useMemo(() => {
+    const byName = new Map();
+    items.forEach((item) => {
+      if (!byName.has(item.name)) byName.set(item.name, []);
+      byName.get(item.name).push(item);
+    });
+
+    return [...byName.entries()]
+      .map(([name, entries]) => ({
+        name,
+        category: entries[0].category,
+        totalQuantity: entries.reduce(
+          (sum, i) => sum + (Number(i.quantity) || 0),
+          0,
+        ),
+        entries: [...entries].sort(
+          (a, b) =>
+            new Date(b.purchaseDate || 0) - new Date(a.purchaseDate || 0),
+        ),
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }, [items]);
 
   return (
     <section className="pantry-page">
@@ -262,13 +289,13 @@ function Pantry() {
           )}
         </>
       ) : (
-        <ul className="list-group">
-          {items.map((item) => (
-            <PantryItem
-              key={item._id}
-              item={item}
-              onEdit={() => edit(item)}
-              onDelete={() => remove(item._id)}
+        <ul className="pantry-groups">
+          {groups.map((group) => (
+            <PantryGroup
+              key={group.name}
+              group={group}
+              onEdit={edit}
+              onDelete={remove}
             />
           ))}
         </ul>
