@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { formatDay } from '../dates';
 import './PantryGroup.css';
-
-function formatDate(value) {
-  return value ? new Date(value).toLocaleDateString() : 'No date';
-}
 
 // One food, however many times it was bought. The row shows the running
 // total; expanding it lists each separate purchase so a single batch can
@@ -44,7 +41,7 @@ function PantryGroup({ group, onEdit, onDelete }) {
           {entries.map((item) => (
             <li key={item._id} className="pentry">
               <span className="pentry-date pp-num">
-                {formatDate(item.purchaseDate)}
+                {formatDay(item.purchaseDate)}
               </span>
               <span className="pentry-qty pp-num">Qty {item.quantity}</span>
               {item.notes && item.notes.trim() ? (
@@ -55,7 +52,7 @@ function PantryGroup({ group, onEdit, onDelete }) {
               <button
                 type="button"
                 className="btn btn-sm btn-outline-secondary ms-auto"
-                aria-label={`Edit ${name} bought ${formatDate(item.purchaseDate)}`}
+                aria-label={`Edit ${name} bought ${formatDay(item.purchaseDate)}`}
                 onClick={() => onEdit(item)}
               >
                 Edit
@@ -63,7 +60,7 @@ function PantryGroup({ group, onEdit, onDelete }) {
               <button
                 type="button"
                 className="btn btn-sm btn-outline-danger"
-                aria-label={`Delete ${name} bought ${formatDate(item.purchaseDate)}`}
+                aria-label={`Delete ${name} bought ${formatDay(item.purchaseDate)}`}
                 onClick={() => onDelete(item._id)}
               >
                 Delete

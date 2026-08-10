@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { api } from '../api';
+import { knownCategories } from '../categories';
+import { formatDay, toDayKey, toLocalDate } from '../dates';
 import PantryItem from './PantryItem';
 import PantryGroup from './PantryGroup';
 import PantryCalendar from './PantryCalendar';
 import './Pantry.css';
-
-const CATEGORIES = ['Produce', 'Dairy', 'Meat', 'Grains', 'Snacks', 'Other'];
 
 const EMPTY = {
   name: '',
@@ -65,21 +65,6 @@ function Pantry() {
     load();
   }
 
-  // Same local YYYY-MM-DD key the calendar uses, so the two agree.
-  function dayKey(date) {
-    const d = new Date(date);
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${d.getFullYear()}-${m}-${day}`;
-  }
-
-  // "YYYY-MM-DD" parsed as a LOCAL date. Passing the string straight to
-  // new Date() would read it as UTC midnight and shift the displayed day.
-  function localDate(key) {
-    const [y, m, d] = key.split('-').map(Number);
-    return new Date(y, m - 1, d);
-  }
-
   // Clicking a calendar day both filters the list below and pre-fills the
   // add form with that date, so a day can be filled straight from the grid.
   function pickDay(key) {
@@ -91,10 +76,12 @@ function Pantry() {
 
   // In calendar view, the detail list shows only the chosen day.
   const visibleItems = selectedDay
-    ? items.filter(
-        (i) => i.purchaseDate && dayKey(i.purchaseDate) === selectedDay,
-      )
+    ? items.filter((i) => toDayKey(i.purchaseDate) === selectedDay)
     : items;
+
+  // Free-typed categories join the suggestions, so one used last week is one
+  // click away this week.
+  const categoryOptions = useMemo(() => knownCategories(items), [items]);
 
   // The list view is an inventory, so the same food bought on several days
   // collapses into one row carrying its running total. Each purchase stays
@@ -114,9 +101,10 @@ function Pantry() {
           (sum, i) => sum + (Number(i.quantity) || 0),
           0,
         ),
-        entries: [...entries].sort(
-          (a, b) =>
-            new Date(b.purchaseDate || 0) - new Date(a.purchaseDate || 0),
+        entries: [...entries].sort((a, b) =>
+          String(toDayKey(b.purchaseDate) || '').localeCompare(
+            String(toDayKey(a.purchaseDate) || ''),
+          ),
         ),
       }))
       .sort((a, b) => a.name.localeCompare(b.name));
@@ -135,7 +123,7 @@ function Pantry() {
           {editId ? 'Edit item' : 'Add an item'}
           {!editId && form.purchaseDate && (
             <span className="pantry-target">
-              bought {localDate(form.purchaseDate).toLocaleDateString()}
+              bought {formatDay(form.purchaseDate)}
             </span>
           )}
         </p>
@@ -160,16 +148,19 @@ function Pantry() {
             >
               Category
             </label>
-            <select
+            <input
               id="pantry-category"
-              className="form-select"
+              className="form-control"
+              list="pantry-category-options"
+              placeholder="Pick one or type your own"
               value={form.category}
               onChange={(e) => setForm({ ...form, category: e.target.value })}
-            >
-              {CATEGORIES.map((c) => (
-                <option key={c}>{c}</option>
+            />
+            <datalist id="pantry-category-options">
+              {categoryOptions.map((c) => (
+                <option key={c} value={c} />
               ))}
-            </select>
+            </datalist>
           </div>
           <div className="col-sm-2">
             <label className="form-label pp-field-label" htmlFor="pantry-qty">
@@ -268,7 +259,7 @@ function Pantry() {
           {selectedDay ? (
             <>
               <p className="pp-label mb-2">
-                Bought {localDate(selectedDay).toLocaleDateString()}
+                Bought {toLocalDate(selectedDay).toLocaleDateString()}
               </p>
               <ul className="list-group">
                 {visibleItems.map((item) => (

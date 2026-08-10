@@ -1,5 +1,6 @@
 import express from 'express';
 import { getDb } from '../db.js';
+import { categoryFor } from '../food-categories.js';
 
 const router = express.Router();
 
@@ -17,16 +18,33 @@ router.get('/', async (req, res, next) => {
   try {
     const db = getDb();
 
-    // distinct() covers the whole pantry, not just the first page of it.
-    const pantryNames = await db.collection('pantryItems').distinct('name');
-    const inPantry = new Set(pantryNames.map(key));
+    // The whole pantry, not just the first page of it. Categories come along
+    // so an ingredient you already buy keeps the aisle you filed it under.
+    const pantryItems = await db
+      .collection('pantryItems')
+      .find({}, { projection: { name: 1, category: 1 } })
+      .toArray();
+    const inPantry = new Map(
+      pantryItems.map((i) => [key(i.name), i.category || categoryFor(i.name)]),
+    );
+
+    // An ingredient carries its aisle wherever it goes — notably onto the
+    // shopping list, which used to file every recipe item under "Other".
+    const describe = (name) => ({
+      name,
+      category: inPantry.get(key(name)) || categoryFor(name),
+    });
 
     const recipes = await db.collection('recipes').find({}).toArray();
 
     const ranked = recipes
       .map((recipe) => {
-        const have = recipe.ingredients.filter((i) => inPantry.has(key(i)));
-        const missing = recipe.ingredients.filter((i) => !inPantry.has(key(i)));
+        const have = recipe.ingredients
+          .filter((i) => inPantry.has(key(i)))
+          .map(describe);
+        const missing = recipe.ingredients
+          .filter((i) => !inPantry.has(key(i)))
+          .map(describe);
         return { ...recipe, have, missing };
       })
       .sort(

@@ -5,8 +5,8 @@ import 'dotenv/config';
 import bcrypt from 'bcryptjs';
 import { connect, getDb, client } from './db.js';
 import { RECIPES } from './recipes-data.js';
+import { categoryFor } from './food-categories.js';
 
-const CATEGORIES = ['Produce', 'Dairy', 'Meat', 'Grains', 'Snacks', 'Other'];
 const FOODS = [
   'Apples',
   'Bananas',
@@ -67,11 +67,14 @@ const PANTRY_FOODS = FOODS.filter((f) => !OUT_OF_STOCK.includes(f));
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 // A shopping date in the recent past — you cannot buy food in the future.
+// Stored as a plain YYYY-MM-DD calendar day, the same shape the API writes,
+// so no timezone conversion can shift it onto the wrong square.
 function randomPurchaseDate() {
   const d = new Date();
   d.setDate(d.getDate() - Math.floor(Math.random() * 60));
-  d.setHours(0, 0, 0, 0);
-  return d;
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${d.getFullYear()}-${m}-${day}`;
 }
 
 async function seed() {
@@ -87,22 +90,28 @@ async function seed() {
   await db.collection('recipes').insertMany(RECIPES.map((r) => ({ ...r })));
 
   await db.collection('pantryItems').insertMany(
-    Array.from({ length: 800 }, () => ({
-      name: pick(PANTRY_FOODS),
-      category: pick(CATEGORIES),
-      quantity: 1 + Math.floor(Math.random() * 10),
-      purchaseDate: randomPurchaseDate(),
-      notes: pick(NOTES),
-    })),
+    Array.from({ length: 800 }, () => {
+      const name = pick(PANTRY_FOODS);
+      return {
+        name,
+        category: categoryFor(name),
+        quantity: 1 + Math.floor(Math.random() * 10),
+        purchaseDate: randomPurchaseDate(),
+        notes: pick(NOTES),
+      };
+    }),
   );
 
   await db.collection('groceryItems').insertMany(
-    Array.from({ length: 300 }, () => ({
-      name: pick(FOODS),
-      category: pick(CATEGORIES),
-      quantity: 1 + Math.floor(Math.random() * 6),
-      purchased: Math.random() < 0.3,
-    })),
+    Array.from({ length: 300 }, () => {
+      const name = pick(FOODS);
+      return {
+        name,
+        category: categoryFor(name),
+        quantity: 1 + Math.floor(Math.random() * 6),
+        purchased: Math.random() < 0.3,
+      };
+    }),
   );
 
   await db.collection('users').insertOne({

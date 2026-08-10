@@ -94,8 +94,10 @@ items.
 
 ### 2. Shopping Cart — what you still need
 
-- Type an item, pick a category, press **Add**.
-- **−** and **+** adjust quantities.
+- Type an item, pick a category, press **Add**. The category box also takes a
+  category of your own — type it once and it joins the suggestions.
+- **Type straight into the quantity box** when you need several of something;
+  **−** and **+** are there for small changes.
 - **Tick the checkbox** as you shop; purchased items grey out and move down.
 - **Remove** clears items once they're home.
 
@@ -108,7 +110,7 @@ first.
 - **Missing 1–2** is one short shop away. Ingredients you have appear in green;
   the ones you lack are crossed out.
 - **"Add N missing to Shopping Cart"** sends exactly those ingredients to your
-  cart — no retyping.
+  cart — no retyping, each under the aisle shown beside it.
 - **Click a recipe name** for the method.
 
 Recipes are stored in the app's own database. No external recipe API is used.

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { formatDay } from '../dates';
 
 // One pantry row. Clicking the row expands it to show the item's notes.
 function PantryItem({ item, onEdit, onDelete }) {
@@ -24,7 +25,7 @@ function PantryItem({ item, onEdit, onDelete }) {
         <span className="badge text-bg-success">{item.category}</span>
         <span className="pantry-date">
           {item.purchaseDate
-            ? `Bought ${new Date(item.purchaseDate).toLocaleDateString()}`
+            ? `Bought ${formatDay(item.purchaseDate)}`
             : 'No date'}
         </span>
 

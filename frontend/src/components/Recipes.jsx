@@ -26,13 +26,14 @@ function Recipes() {
     load();
   }, [load]);
 
-  // Put a recipe's missing ingredients straight onto the shopping list.
+  // Put a recipe's missing ingredients straight onto the shopping list, each
+  // under its own aisle so the list stays sortable once you are in the shop.
   async function addMissing(recipe) {
     setError('');
     try {
       await Promise.all(
-        recipe.missing.map((name) =>
-          api.post('/grocery', { name, category: 'Other', quantity: 1 }),
+        recipe.missing.map(({ name, category }) =>
+          api.post('/grocery', { name, category, quantity: 1 }),
         ),
       );
       setNotice(
