@@ -94,27 +94,34 @@ function Pantry() {
   // The list view is an inventory, so the same food bought on several days
   // collapses into one row carrying its running total. Each purchase stays
   // separately editable underneath.
+  //
+  // "beef" and "Beef" are the same food, so they group together whatever way
+  // they were typed; the group takes the spelling of the newest purchase.
   const groups = useMemo(() => {
     const byName = new Map();
     items.forEach((item) => {
-      if (!byName.has(item.name)) byName.set(item.name, []);
-      byName.get(item.name).push(item);
+      const key = item.name.trim().toLowerCase();
+      if (!byName.has(key)) byName.set(key, []);
+      byName.get(key).push(item);
     });
 
-    return [...byName.entries()]
-      .map(([name, entries]) => ({
-        name,
-        category: entries[0].category,
-        totalQuantity: entries.reduce(
-          (sum, i) => sum + (Number(i.quantity) || 0),
-          0,
-        ),
-        entries: [...entries].sort((a, b) =>
+    return [...byName.values()]
+      .map((entries) => {
+        const newestFirst = [...entries].sort((a, b) =>
           String(toDayKey(b.purchaseDate) || '').localeCompare(
             String(toDayKey(a.purchaseDate) || ''),
           ),
-        ),
-      }))
+        );
+        return {
+          name: newestFirst[0].name.trim(),
+          category: newestFirst[0].category,
+          totalQuantity: entries.reduce(
+            (sum, i) => sum + (Number(i.quantity) || 0),
+            0,
+          ),
+          entries: newestFirst,
+        };
+      })
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [items]);
 

@@ -119,12 +119,18 @@ router.put('/:id', async (req, res, next) => {
 // DELETE /api/pantry/by-name/:name — remove every purchase of one food.
 //
 // Cooking with the last of something means clearing several rows, one per
-// shopping trip. Declared before /:id so "by-name" is not read as an id.
+// shopping trip. The match ignores case and surrounding spaces, so "beef"
+// takes "Beef" with it — they were never two different foods. Declared
+// before /:id so "by-name" is not read as an id.
 router.delete('/by-name/:name', async (req, res, next) => {
   try {
     const name = req.params.name.trim();
     if (!name) return res.status(400).json({ error: 'Name is required' });
-    const result = await collection().deleteMany({ name });
+    const result = await collection().deleteMany({
+      $expr: {
+        $eq: [{ $toLower: { $trim: { input: '$name' } } }, name.toLowerCase()],
+      },
+    });
     if (result.deletedCount === 0) {
       return res.status(404).json({ error: 'No items with that name' });
     }
