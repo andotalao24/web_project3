@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { api } from '../api';
+import { knownCategories } from '../categories';
 import GroceryItem from './GroceryItem';
 import './Grocery.css';
-
-const CATEGORIES = ['Produce', 'Dairy', 'Meat', 'Grains', 'Snacks', 'Other'];
 
 // Grocery page: add, adjust quantity, mark purchased, remove.
 function Grocery() {
@@ -42,6 +41,10 @@ function Grocery() {
     load();
   }
 
+  // Categories already on the list join the suggestions, so a custom one is
+  // typed once and picked thereafter.
+  const categoryOptions = useMemo(() => knownCategories(items), [items]);
+
   return (
     <section className="grocery-page">
       <h1 className="pp-page-title">Shopping Cart</h1>
@@ -70,16 +73,19 @@ function Grocery() {
           >
             Category
           </label>
-          <select
+          <input
             id="grocery-category"
-            className="form-select"
+            className="form-control"
+            list="grocery-category-options"
+            placeholder="Pick one or type your own"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-          >
-            {CATEGORIES.map((c) => (
-              <option key={c}>{c}</option>
+          />
+          <datalist id="grocery-category-options">
+            {categoryOptions.map((c) => (
+              <option key={c} value={c} />
             ))}
-          </select>
+          </datalist>
         </div>
         <div className="col-auto">
           <button className="btn btn-success" type="submit">

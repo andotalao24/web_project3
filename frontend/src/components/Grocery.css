@@ -20,9 +20,24 @@
   font-weight: 500;
 }
 
-/* Quantity stepper: digits stay aligned as the number changes. */
+/* Quantity: a typeable box between two nudge buttons. */
+.grocery-stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
 .grocery-qty {
   font-variant-numeric: tabular-nums;
-  min-width: 2.25rem;
+  width: 3.5rem;
   text-align: center;
+  padding-inline: 0.25rem;
+  -moz-appearance: textfield;
+}
+
+/* The native spinners duplicate the ± buttons and shrink the hit area. */
+.grocery-qty::-webkit-outer-spin-button,
+.grocery-qty::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
 }

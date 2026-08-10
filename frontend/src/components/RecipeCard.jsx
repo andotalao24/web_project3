@@ -33,13 +33,14 @@ function RecipeCard({ recipe, onAddMissing }) {
 
       <ul className="recipe-ingredients">
         {recipe.have.map((i) => (
-          <li key={i} className="ing has">
-            {i}
+          <li key={i.name} className="ing has">
+            {i.name}
           </li>
         ))}
         {recipe.missing.map((i) => (
-          <li key={i} className="ing missing">
-            {i}
+          <li key={i.name} className="ing missing">
+            {i.name}
+            <span className="ing-aisle">{i.category}</span>
             <span className="visually-hidden"> — not in your pantry</span>
           </li>
         ))}
@@ -66,6 +67,11 @@ function RecipeCard({ recipe, onAddMissing }) {
   );
 }
 
+const ingredientShape = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  category: PropTypes.string,
+});
+
 RecipeCard.propTypes = {
   recipe: PropTypes.shape({
     _id: PropTypes.string.isRequired,
@@ -73,8 +79,8 @@ RecipeCard.propTypes = {
     minutes: PropTypes.number.isRequired,
     servings: PropTypes.number.isRequired,
     ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
-    have: PropTypes.arrayOf(PropTypes.string).isRequired,
-    missing: PropTypes.arrayOf(PropTypes.string).isRequired,
+    have: PropTypes.arrayOf(ingredientShape).isRequired,
+    missing: PropTypes.arrayOf(ingredientShape).isRequired,
     steps: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
   onAddMissing: PropTypes.func.isRequired,

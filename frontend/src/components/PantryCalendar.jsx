@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { toDayKey } from '../dates';
 import './PantryCalendar.css';
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -18,13 +19,10 @@ const MONTHS = [
   'December',
 ];
 
-// Local YYYY-MM-DD key so items land on the right calendar square.
-function dateKey(date) {
-  const d = new Date(date);
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${d.getFullYear()}-${m}-${day}`;
-}
+// The key for one square of the grid, built from the numbers the grid already
+// has — no Date round-trip that a timezone could shift.
+const cellKey = (year, month, day) =>
+  `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
 // Month grid of shopping days: see at a glance what you bought when.
 function PantryCalendar({ items, selectedDay, onSelectDay }) {
@@ -33,15 +31,19 @@ function PantryCalendar({ items, selectedDay, onSelectDay }) {
     new Date(today.getFullYear(), today.getMonth(), 1),
   );
 
-  const todayKey = dateKey(today);
+  const todayKey = cellKey(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate(),
+  );
   const year = cursor.getFullYear();
   const month = cursor.getMonth();
 
   // Bucket every dated item onto the day it was bought.
   const byDay = {};
   items.forEach((item) => {
-    if (!item.purchaseDate) return;
-    const key = dateKey(item.purchaseDate);
+    const key = toDayKey(item.purchaseDate);
+    if (!key) return;
     (byDay[key] = byDay[key] || []).push(item);
   });
 
@@ -95,7 +97,7 @@ function PantryCalendar({ items, selectedDay, onSelectDay }) {
           if (day === null) {
             return <div key={`blank-${i}`} className="cal-cell is-blank" />;
           }
-          const key = dateKey(new Date(year, month, day));
+          const key = cellKey(year, month, day);
           const dayItems = byDay[key] || [];
           const classes = ['cal-cell'];
           if (key === todayKey) classes.push('is-today');
