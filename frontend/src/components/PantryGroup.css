@@ -49,6 +49,7 @@
   color: var(--pp-muted);
 }
 
+/* The running total pushes itself and everything after it to the right. */
 .pgroup-total {
   margin-left: auto;
   font-size: 0.85rem;
@@ -57,6 +58,19 @@
   background: var(--pp-green-100);
   border-radius: 999px;
   padding: 0.1rem 0.65rem;
+}
+
+/* The "are you sure" that replaces the delete-all button in place. */
+.pgroup-confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pp-space-2);
+}
+
+.pgroup-confirm-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--pp-crimson);
 }
 
 /* --- the individual purchases --- */

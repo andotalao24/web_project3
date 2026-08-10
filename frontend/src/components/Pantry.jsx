@@ -65,6 +65,14 @@ function Pantry() {
     load();
   }
 
+  // Clearing out one food entirely: every purchase of it goes at once, rather
+  // than a row at a time down the list.
+  async function removeAllNamed(name) {
+    if (editId) reset();
+    await api.del(`/pantry/by-name/${encodeURIComponent(name)}`);
+    load();
+  }
+
   // Clicking a calendar day both filters the list below and pre-fills the
   // add form with that date, so a day can be filled straight from the grid.
   function pickDay(key) {
@@ -287,6 +295,7 @@ function Pantry() {
               group={group}
               onEdit={edit}
               onDelete={remove}
+              onDeleteAll={() => removeAllNamed(group.name)}
             />
           ))}
         </ul>
