@@ -20,6 +20,12 @@
   font-weight: 500;
 }
 
+/* Quantity on the add form: wide enough for two digits, no wider. */
+.grocery-add-qty {
+  width: 6rem;
+  font-variant-numeric: tabular-nums;
+}
+
 /* Quantity: a typeable box between two nudge buttons. */
 .grocery-stepper {
   display: inline-flex;

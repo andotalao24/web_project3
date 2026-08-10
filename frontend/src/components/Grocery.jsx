@@ -9,6 +9,7 @@ function Grocery() {
   const [items, setItems] = useState([]);
   const [name, setName] = useState('');
   const [category, setCategory] = useState('Produce');
+  const [quantity, setQuantity] = useState('1');
   const [error, setError] = useState('');
 
   const load = useCallback(async () => {
@@ -23,11 +24,15 @@ function Grocery() {
     load();
   }, [load]);
 
+  // You usually know how many you need at the moment you think of the item,
+  // so the count is set here rather than stepped up on the row afterwards.
   async function add(e) {
     e.preventDefault();
     if (!name.trim()) return;
-    await api.post('/grocery', { name, category, quantity: 1 });
+    const count = Math.max(1, Math.round(Number(quantity)) || 1);
+    await api.post('/grocery', { name, category, quantity: count });
     setName('');
+    setQuantity('1');
     load();
   }
 
@@ -86,6 +91,21 @@ function Grocery() {
               <option key={c} value={c} />
             ))}
           </datalist>
+        </div>
+        <div className="col-auto">
+          <label className="form-label pp-field-label" htmlFor="grocery-qty">
+            Quantity
+          </label>
+          <input
+            id="grocery-qty"
+            className="form-control grocery-add-qty"
+            type="number"
+            min="1"
+            step="1"
+            inputMode="numeric"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+          />
         </div>
         <div className="col-auto">
           <button className="btn btn-success" type="submit">
