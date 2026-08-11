@@ -6,8 +6,9 @@ import './PantryGroup.css';
 // One food, however many times it was bought. The row shows the running
 // total; expanding it lists each separate purchase so a single batch can
 // still be edited or deleted on its own.
-function PantryGroup({ group, onEdit, onDelete }) {
+function PantryGroup({ group, onEdit, onDelete, onDeleteAll }) {
   const [open, setOpen] = useState(false);
+  const [confirming, setConfirming] = useState(false);
   const { name, category, entries, totalQuantity } = group;
   const times = entries.length;
 
@@ -34,6 +35,44 @@ function PantryGroup({ group, onEdit, onDelete }) {
         </span>
 
         <span className="pgroup-total pp-num">{totalQuantity} in total</span>
+
+        {/* Clearing a whole food is worth a second look — several shopping
+            trips disappear at once — so the button asks before it acts. */}
+        {confirming ? (
+          <span className="pgroup-confirm">
+            <span className="pgroup-confirm-text">
+              Delete all {times} purchase{times === 1 ? '' : 's'}?
+            </span>
+            <button
+              type="button"
+              className="btn btn-sm btn-danger"
+              onClick={() => {
+                setConfirming(false);
+                onDeleteAll();
+              }}
+            >
+              Delete
+            </button>
+            <button
+              type="button"
+              className="btn btn-sm btn-outline-secondary"
+              onClick={() => setConfirming(false)}
+            >
+              Cancel
+            </button>
+          </span>
+        ) : (
+          <button
+            type="button"
+            className="btn btn-sm btn-outline-danger"
+            aria-label={`Delete all ${times} purchase${
+              times === 1 ? '' : 's'
+            } of ${name}`}
+            onClick={() => setConfirming(true)}
+          >
+            Delete all
+          </button>
+        )}
       </div>
 
       {open && (
@@ -89,6 +128,7 @@ PantryGroup.propTypes = {
   }).isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onDeleteAll: PropTypes.func.isRequired,
 };
 
 export default PantryGroup;
