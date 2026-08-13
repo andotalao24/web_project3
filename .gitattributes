@@ -1,0 +1,14 @@
+# Line endings are LF in the repository and in every working copy.
+#
+# Without this, Git's core.autocrlf rewrites files as CRLF on Windows
+# checkouts, and `prettier --check` then reports every file as unformatted
+# even though the committed content is correct. Normalising here keeps the
+# format check honest on whichever machine runs it.
+* text=auto eol=lf
+
+# Binary assets must never be line-ending converted.
+*.png binary
+*.PNG binary
+*.pdf binary
+*.docx binary
+*.pptx binary
