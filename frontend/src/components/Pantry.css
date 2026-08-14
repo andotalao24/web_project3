@@ -1,5 +1,29 @@
 /* Pantry page — component-specific styles. */
 
+/* Picking a calendar day or pressing Edit changes this form without moving
+   the page there — this makes the change impossible to miss, wherever the
+   click that caused it happened. */
+.pp-panel-active {
+  border-color: var(--pp-green-600);
+  animation: pp-panel-pulse 1.5s ease-out;
+}
+
+@keyframes pp-panel-pulse {
+  0% {
+    box-shadow: 0 0 0 4px rgba(46, 125, 70, 0.35);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(46, 125, 70, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pp-panel-active {
+    animation: none;
+    box-shadow: 0 0 0 4px rgba(46, 125, 70, 0.35);
+  }
+}
+
 .pantry-page .list-group-item {
   border-left: 3px solid transparent;
   transition:

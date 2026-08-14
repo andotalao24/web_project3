@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { api } from '../api';
 import { knownCategories } from '../categories';
 import { formatDay, toDayKey, toLocalDate } from '../dates';
@@ -23,6 +23,28 @@ function Pantry() {
   const [error, setError] = useState('');
   const [view, setView] = useState('calendar'); // 'calendar' | 'list'
   const [selectedDay, setSelectedDay] = useState(null);
+  const [formActive, setFormActive] = useState(false);
+
+  // Both "click a calendar day" and "click Edit on a row" change the form at
+  // the top of the page without moving the page itself — easy to miss. This
+  // pulls the form into view and drops focus into it, so the change is
+  // impossible not to notice, wherever on the page it was triggered from.
+  const formRef = useRef(null);
+  const nameInputRef = useRef(null);
+  const formActiveTimer = useRef(null);
+
+  useEffect(() => () => clearTimeout(formActiveTimer.current), []);
+
+  function jumpToForm() {
+    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // preventScroll: the browser's own "bring the focused field into view"
+    // jump would otherwise race the smooth scroll above and the two fight
+    // over the final position, leaving the form scrolled past.
+    nameInputRef.current?.focus({ preventScroll: true });
+    setFormActive(true);
+    clearTimeout(formActiveTimer.current);
+    formActiveTimer.current = setTimeout(() => setFormActive(false), 1500);
+  }
 
   const load = useCallback(async () => {
     try {
@@ -58,6 +80,7 @@ function Pantry() {
       purchaseDate: item.purchaseDate ? item.purchaseDate.slice(0, 10) : '',
       notes: item.notes || '',
     });
+    jumpToForm();
   }
 
   async function remove(id) {
@@ -75,10 +98,17 @@ function Pantry() {
 
   // Clicking a calendar day both filters the list below and pre-fills the
   // add form with that date, so a day can be filled straight from the grid.
+  // A day that already has items gets its own feedback right underneath the
+  // calendar (the day's list appears there); an empty day has nothing to
+  // show there, so that's the case that needs the jump up to the form —
+  // otherwise the click looks like it did nothing at all.
   function pickDay(key) {
     setSelectedDay(key);
     if (!editId) {
       setForm((f) => ({ ...f, purchaseDate: key || '' }));
+      const hasItems =
+        key && items.some((i) => toDayKey(i.purchaseDate) === key);
+      if (key && !hasItems) jumpToForm();
     }
   }
 
@@ -133,7 +163,11 @@ function Pantry() {
         any day to add what you picked up.
       </p>
 
-      <form onSubmit={save} className="pp-panel">
+      <form
+        onSubmit={save}
+        ref={formRef}
+        className={`pp-panel ${formActive ? 'pp-panel-active' : ''}`}
+      >
         <p className="pp-label mb-3">
           {editId ? 'Edit item' : 'Add an item'}
           {!editId && form.purchaseDate && (
@@ -149,6 +183,7 @@ function Pantry() {
             </label>
             <input
               id="pantry-name"
+              ref={nameInputRef}
               className="form-control"
               placeholder="e.g. Olive oil"
               value={form.name}

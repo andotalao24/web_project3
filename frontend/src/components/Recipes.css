@@ -18,3 +18,9 @@
   padding: var(--pp-space-3) var(--pp-space-4);
   margin-bottom: var(--pp-space-4);
 }
+
+.recipes-form-hint {
+  margin: var(--pp-space-1) 0 0;
+  font-size: 0.78rem;
+  color: var(--pp-muted);
+}

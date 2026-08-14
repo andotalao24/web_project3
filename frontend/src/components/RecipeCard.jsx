@@ -24,6 +24,8 @@ function RecipeCard({ recipe, onAddMissing }) {
           {recipe.minutes} min · serves {recipe.servings}
         </span>
 
+        {recipe.isCustom && <span className="recipe-status">Your recipe</span>}
+
         {ready ? (
           <span className="recipe-status is-ready">Ready to cook</span>
         ) : (
@@ -82,6 +84,7 @@ RecipeCard.propTypes = {
     have: PropTypes.arrayOf(ingredientShape).isRequired,
     missing: PropTypes.arrayOf(ingredientShape).isRequired,
     steps: PropTypes.arrayOf(PropTypes.string).isRequired,
+    isCustom: PropTypes.bool,
   }).isRequired,
   onAddMissing: PropTypes.func.isRequired,
 };
