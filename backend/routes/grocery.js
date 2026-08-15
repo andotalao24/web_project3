@@ -44,13 +44,37 @@ router.get('/:id', async (req, res, next) => {
 });
 
 // POST /api/grocery — create.
+//
+// Adding an item that is already on the list (and not yet purchased) tops up
+// its quantity instead of inserting a second row for the same food — the
+// same "beef"/"Beef" case-insensitive match the pantry uses. A purchased
+// item is left alone so buying it again starts a fresh, unchecked row.
 router.post('/', async (req, res, next) => {
   try {
     const doc = buildItem(req.body);
     if (!doc.name) return res.status(400).json({ error: 'Name is required' });
-    doc.createdAt = new Date();
-    const result = await collection().insertOne(doc);
-    res.status(201).json({ _id: result.insertedId, ...doc });
+    const result = await collection().findOneAndUpdate(
+      {
+        purchased: { $ne: true },
+        $expr: {
+          $eq: [
+            { $toLower: { $trim: { input: '$name' } } },
+            doc.name.toLowerCase(),
+          ],
+        },
+      },
+      {
+        $inc: { quantity: doc.quantity },
+        $setOnInsert: {
+          name: doc.name,
+          category: doc.category,
+          purchased: false,
+          createdAt: new Date(),
+        },
+      },
+      { upsert: true, returnDocument: 'after' },
+    );
+    res.status(201).json(result);
   } catch (err) {
     next(err);
   }
