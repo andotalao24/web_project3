@@ -53,28 +53,27 @@ router.post('/', async (req, res, next) => {
   try {
     const doc = buildItem(req.body);
     if (!doc.name) return res.status(400).json({ error: 'Name is required' });
-    const result = await collection().findOneAndUpdate(
-      {
-        purchased: { $ne: true },
-        $expr: {
-          $eq: [
-            { $toLower: { $trim: { input: '$name' } } },
-            doc.name.toLowerCase(),
-          ],
-        },
-      },
-      {
-        $inc: { quantity: doc.quantity },
-        $setOnInsert: {
-          name: doc.name,
-          category: doc.category,
-          purchased: false,
-          createdAt: new Date(),
-        },
-      },
-      { upsert: true, returnDocument: 'after' },
+
+    // Matched with a collation rather than $expr: MongoDB rejects $expr in the
+    // query predicate of an upsert, and strength 2 ignores case without the
+    // regex escaping a ^...$ pattern would need.
+    const existing = await collection().findOne(
+      { name: doc.name, purchased: { $ne: true } },
+      { collation: { locale: 'en', strength: 2 } },
     );
-    res.status(201).json(result);
+
+    if (existing) {
+      const merged = await collection().findOneAndUpdate(
+        { _id: existing._id },
+        { $inc: { quantity: doc.quantity } },
+        { returnDocument: 'after' },
+      );
+      return res.status(200).json(merged);
+    }
+
+    doc.createdAt = new Date();
+    const result = await collection().insertOne(doc);
+    return res.status(201).json({ _id: result.insertedId, ...doc });
   } catch (err) {
     next(err);
   }
