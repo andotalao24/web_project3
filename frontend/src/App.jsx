@@ -65,6 +65,8 @@ function App() {
     </button>
   );
 
+  // the tab logic and the logout logic (The whole nav bar really) could be rendered within a base page that 
+  // loads the nav bar by default on every page and is dynamic to the type of user that is logged in. 
   return (
     <div className="app d-flex flex-column min-vh-100">
       {/* First tab stop: lets keyboard users jump past the nav. */}
