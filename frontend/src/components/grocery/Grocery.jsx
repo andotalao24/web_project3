@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { api } from '../api';
-import { knownCategories } from '../categories';
+import { api } from '../../api';
+import { knownCategories } from '../../categories';
 import GroceryItem from './GroceryItem';
 import './Grocery.css';
 
+// good idea to export the function on the same line as declaring it so the code is easier to read
+// also a good idea to create folder for your components that are grouped with their CSS
+
 // Grocery page: add, adjust quantity, mark purchased, remove.
-function Grocery() {
+export default function Grocery() {
   const [items, setItems] = useState([]);
   const [name, setName] = useState('');
   const [category, setCategory] = useState('Produce');
@@ -135,5 +138,3 @@ function Grocery() {
     </section>
   );
 }
-
-export default Grocery;

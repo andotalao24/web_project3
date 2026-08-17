@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { api } from '../api';
-import { knownCategories } from '../categories';
-import { formatDay, toDayKey, toLocalDate } from '../dates';
-import PantryItem from './PantryItem';
-import PantryGroup from './PantryGroup';
-import PantryCalendar from './PantryCalendar';
+import { api } from '../../api';
+import { knownCategories } from '../../categories';
+import { formatDay, toDayKey, toLocalDate } from '../../dates';
+import PantryItem from '../PantryItem';
+import PantryGroup from '../pantry-group/PantryGroup';
+import PantryCalendar from '../pantry-calender/PantryCalendar';
 import './Pantry.css';
 
 const EMPTY = {

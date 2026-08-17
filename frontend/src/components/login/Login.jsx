@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { api } from '../api';
+import { api } from '../../api';
 import './Login.css';
 
 // Eight decorative floating icons. The emoji themselves live in Login.css so

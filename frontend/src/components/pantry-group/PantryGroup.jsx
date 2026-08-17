@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { formatDay } from '../dates';
+import { formatDay } from '../../dates';
 import './PantryGroup.css';
 
 // One food, however many times it was bought. The row shows the running
